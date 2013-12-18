@@ -1,0 +1,3 @@
+[submodule "opauth"]
+	path = opauth
+	url = https://github.com/opauth/opauth.git
