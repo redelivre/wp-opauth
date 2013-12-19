@@ -8,7 +8,7 @@
 		{
 			?>
 			<li>
-				<a href="<?php echo WP_PLUGIN_URL . "/wp-opauth/login/$id"; ?>"><?php
+				<a href="<?php echo WP_PLUGIN_URL . "/wp-opauth/auth/$id"; ?>"><?php
 					if (file_exists(WPOPAUTH_PATH
 								. DIRECTORY_SEPARATOR . 'favicons'
 								. DIRECTORY_SEPARATOR . $id . '.png'))

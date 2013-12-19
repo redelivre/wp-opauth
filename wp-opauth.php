@@ -30,6 +30,10 @@ require_once CONF_FILE;
 require_once OPAUTH_PATH . DIRECTORY_SEPARATOR . 'Opauth.php';
 require_once WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'wpopauth.php';
 
+/* Override Opauth's path variable */
+$config['path'] = preg_replace('/^' . preg_quote(site_url(), '/') . '/', '',
+				WP_PLUGIN_URL) . "/wp-opauth/auth/";
+
 $opauth = new WPOpauth($config);
 
 ?>
