@@ -25,7 +25,7 @@ class WPOpauth
 		add_action('init', array($this, 'init'));
 	}
 
-	private function loginForm()
+	public function loginForm()
 	{
 		$strategies = $this->opauth->strategyMap;
 
@@ -79,6 +79,17 @@ class WPOpauth
 		$response = unserialize(base64_decode($_POST['opauth']));
 
 		var_dump($response);
+		$username = self::getUsername($response);
+
+		if (get_user_by('login', $username))
+		{
+			echo "Já existe";
+		}
+		else
+		{
+			echo "Nem tem";
+			self::createUser($response);
+		}
 	}
 
 	private static function redirectWithPost($url)
@@ -94,6 +105,27 @@ class WPOpauth
 		echo '<script language="Javascript">';
 		echo "document.redirect_form.submit()";
 		echo "</script>";
+	}
+
+	private static function getUsername($response)
+	{
+		return 'opauth_'
+			. $response['auth']['provider']
+			. '_' .  $response['auth']['uid'];
+	}
+
+	private static function createUser($response)
+	{
+		$user = array();
+		$user['user_login'] = self::getUsername($response);
+		$user['first_name'] = $response['auth']['info']['name'];
+		$user['user_pass'] = $response['signature'];
+		if (array_key_exists('email', $response['auth']['info']))
+		{
+			$user['user_email'] = $response['auth']['info']['email'];
+		}
+
+		var_dump(wp_insert_user($user));
 	}
 }
 
