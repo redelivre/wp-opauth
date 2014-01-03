@@ -92,13 +92,12 @@ class WPOpauth
 
 		if ($uid === null)
 		{
-			echo "New user";
 			$uid = self::createUser($response);
 		}
-		else
-		{
-			echo "User exists";
-		}
+
+		self::loginAs($uid);
+
+		wp_redirect(get_home_url());
 	}
 
 	private static function redirectWithPost($url)
@@ -211,6 +210,13 @@ class WPOpauth
 	{
 		global $wpdb;
 		return $wpdb->prefix . WPOPAUTH_USER_TABLE_NAME;
+	}
+
+	private static function loginAs($uid)
+	{
+		$user = wp_set_current_user($uid);
+		wp_set_auth_cookie($user->ID);
+		do_action('wp_login', $user->user_login);
 	}
 }
 
