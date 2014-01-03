@@ -76,19 +76,28 @@ class WPOpauth
 
 	private function callback()
 	{
+		if (!array_key_exists('opauth', $_POST))
+		{
+			return;
+		}
+
 		$response = unserialize(base64_decode($_POST['opauth']));
 
-		var_dump($response);
-		$username = self::getUsername($response);
-
-		if (get_user_by('login', $username))
+		if (!self::isInitialized())
 		{
-			echo "Já existe";
+			self::createTables();
+		}
+
+		$uid = self::getUserID($response);
+
+		if ($uid === null)
+		{
+			echo "New user";
+			$uid = self::createUser($response);
 		}
 		else
 		{
-			echo "Nem tem";
-			self::createUser($response);
+			echo "User exists";
 		}
 	}
 
@@ -109,15 +118,27 @@ class WPOpauth
 
 	private static function getUsername($response)
 	{
-		return 'opauth_'
-			. $response['auth']['provider']
-			. '_' .  $response['auth']['uid'];
+		return substr(sanitize_user($response['auth']['info']['name'], true),
+				0, 16);
 	}
 
 	private static function createUser($response)
 	{
+		global $wpdb;
+
+		$table = self::getUserTableName();
+
+		$prefix = self::getUsername($response);
+		$suffix = '';
+		$username = '';
+
+		do
+		{
+			$username = $prefix . $suffix++;
+		} while (username_exists($username));
+
 		$user = array();
-		$user['user_login'] = self::getUsername($response);
+		$user['user_login'] = $username;
 		$user['first_name'] = $response['auth']['info']['name'];
 		$user['user_pass'] = $response['signature'];
 		if (array_key_exists('email', $response['auth']['info']))
@@ -125,7 +146,71 @@ class WPOpauth
 			$user['user_email'] = $response['auth']['info']['email'];
 		}
 
-		var_dump(wp_insert_user($user));
+		$uid = wp_insert_user($user);
+
+		if (is_wp_error($uid))
+		{
+			return null;
+		}
+
+		$wpdb->insert($table,
+				array(
+					'provider' => $response['auth']['provider'],
+					'remote_id' => $response['auth']['uid'],
+					'local_id' => $uid
+				)
+		);
+
+		return $uid;
+	}
+
+	private static function isInitialized()
+	{
+		global $wpdb;
+
+		$table = self::getUserTableName();
+		$query = $wpdb->prepare("SHOW TABLES LIKE %s;", $table);
+
+		return ($wpdb->get_var($query) === null? false : true);
+	}
+
+	private static function createTables()
+	{
+		global $wpdb;
+
+		$table = self::getUserTableName();
+		$query = "CREATE TABLE $table (
+				provider varchar(128) NOT NULL,
+				remote_id varchar(128) NOT NULL,
+				local_id int NOT NULL,
+				PRIMARY KEY (provider, remote_id)
+			);";
+
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+		dbDelta($query);
+	}
+
+	private static function getUserID($response)
+	{
+		global $wpdb;
+
+		$table = self::getUserTableName();
+		$query = $wpdb->prepare(
+				'SELECT local_id'
+				. " FROM $table"
+				. ' WHERE'
+				. ' provider = %s'
+				. ' AND'
+				. ' remote_id = %s',
+				$response['auth']['provider'], $response['auth']['uid']);
+
+		return $wpdb->get_var($query);
+	}
+	
+	private static function getUserTableName()
+	{
+		global $wpdb;
+		return $wpdb->prefix . WPOPAUTH_USER_TABLE_NAME;
 	}
 }
 

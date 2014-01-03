@@ -17,6 +17,7 @@ define('OPAUTH_PATH',
 		. DIRECTORY_SEPARATOR . 'lib'
 		. DIRECTORY_SEPARATOR . 'Opauth');
 define('WPOPAUTH_PATH', dirname(__FILE__));
+define('WPOPAUTH_USER_TABLE_NAME', 'wpopauth_users');
 
 if (!file_exists(CONF_FILE))
 {
