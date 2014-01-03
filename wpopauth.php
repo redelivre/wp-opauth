@@ -83,6 +83,12 @@ class WPOpauth
 
 		$response = unserialize(base64_decode($_POST['opauth']));
 
+		if (array_key_exists('error', $response))
+		{
+			wp_redirect(wp_login_url());
+			die;
+		}
+
 		if (!self::isInitialized())
 		{
 			self::createTables();
