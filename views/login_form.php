@@ -4,6 +4,7 @@
 </h3>
 <ul class="wp-opauth-login-strategies">
 	<?php
+		asort($strategies);
 		foreach ($strategies as $id => $info)
 		{
 			?>
