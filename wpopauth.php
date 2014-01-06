@@ -23,6 +23,20 @@ class WPOpauth
 		$this->opauth->env['host'] = preg_replace('/\/$/', '', network_site_url());
 		add_action('login_form', array($this, 'loginForm'));
 		add_action('init', array($this, 'init'));
+
+		/* Show errors */
+		if (array_key_exists('wp-opauth-errors', $_POST))
+		{
+			global $error;
+
+			$errors = json_decode($_POST['wp-opauth-errors']);
+			$error .= '<ul>';
+			foreach ($errors as $e)
+			{
+				$error .= "<li>$e</li>";
+			}
+			$error .= '</ul>';
+		}
 	}
 
 	public function loginForm()
@@ -49,7 +63,7 @@ class WPOpauth
 				if ($details !== false)
 				{
 					self::redirectWithPost($details->siteurl
-							. $this->opauth->config['callback_url']);
+							. $this->opauth->config['callback_url'], $_POST);
 					die;
 				}
 			}
@@ -101,16 +115,24 @@ class WPOpauth
 			$uid = self::createUser($response);
 		}
 
+		if (is_wp_error($uid))
+		{
+			self::redirectWithPost(wp_login_url(),
+					array('wp-opauth-errors'
+						=> json_encode($uid->get_error_messages())));
+			die;
+		}
+
 		self::loginAs($uid);
 
 		wp_redirect(get_home_url());
 	}
 
-	private static function redirectWithPost($url)
+	private static function redirectWithPost($url, $post)
 	{
 		echo '<form action="' . htmlentities($url)
 			. '" method="post" name="redirect_form">';
-		foreach ($_POST as $name => $value)
+		foreach ($post as $name => $value)
 		{
 			echo '<input type="hidden" name="' . htmlentities($name)
 				. '" value="' . htmlentities($value) . '">';
@@ -155,7 +177,7 @@ class WPOpauth
 
 		if (is_wp_error($uid))
 		{
-			return null;
+			return $uid;
 		}
 
 		$wpdb->insert($table,
@@ -211,7 +233,7 @@ class WPOpauth
 
 		return $wpdb->get_var($query);
 	}
-	
+
 	private static function getUserTableName()
 	{
 		global $wpdb;
