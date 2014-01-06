@@ -1,10 +1,10 @@
 <?php
 
 /*
-Plugin Name: Wordpress Opauth
-Plugin URI: http://www.ethymos.com.br
+Plugin Name: Opauth
+Plugin URI: http://labculturadigital.org/
 Description: Adds Opauth (opauth.org) support
-Author: Ethymos
+Author: Laboratório de Cultura Digital - Flávio Zavan
 Version: 0.01
 Text Domain: wp-opauth
 */
