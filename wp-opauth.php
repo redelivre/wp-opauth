@@ -21,9 +21,10 @@ define('WPOPAUTH_USER_TABLE_NAME', 'wpopauth_users');
 
 if (!file_exists(CONF_FILE))
 {
-	trigger_error(
-			__('Configuration file missing at ' . CONF_FILE
-				. '. Opauth disabled.', 'wp-opauth'), E_USER_NOTICE);
+	trigger_error(sprintf(
+				__('Configuration file missing at %s. Opauth disabled.', 'wp-opauth'),
+				CONF_FILE),
+			E_USER_NOTICE);
 	return;
 }
 
