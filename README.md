@@ -7,8 +7,8 @@ Opauth is a multi-provider authentication framework.
 
 Requirements
 ---------
-Wordpress
-Wordpress permalinks
+1. Wordpress
+2. Permalinks enabled
 
 How to use
 ----------
@@ -46,5 +46,6 @@ the currently available strategies.
 License
 ---------
 The MIT License
+
 Copyright (c) 2014
 Laboratório de Cultura Digital (http://labculturadigital.org)
