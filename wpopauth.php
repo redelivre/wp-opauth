@@ -21,8 +21,6 @@ class WPOpauth
 		$this->opauth = new Opauth($config, false);
 		/* Override host to enable multisite support */
 		$this->opauth->env['host'] = preg_replace('/\/$/', '', network_site_url());
-		add_action('login_form', array($this, 'loginForm'));
-		add_action('init', array($this, 'init'));
 
 		/* Show errors */
 		if (array_key_exists('wp-opauth-errors', $_POST))
@@ -37,6 +35,9 @@ class WPOpauth
 			}
 			$error .= '</ul>';
 		}
+
+		add_action('login_form', array($this, 'loginForm'));
+		add_action('init', array($this, 'init'));
 	}
 
 	public function loginForm()
