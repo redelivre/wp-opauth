@@ -1,0 +1,40 @@
+# Copyright (C) 2014 Opauth
+# This file is distributed under the same license as the Opauth package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Opauth 0.01\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
+"POT-Creation-Date: 2014-01-07 13:40:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2014-01-07 11:55-0300\n"
+"Last-Translator: Flávio\n"
+"Language-Team: Flávio Zavan\n"
+"X-Poedit-Language: Portuguese\n"
+"X-Poedit-Country: BRAZIL\n"
+
+#: views/login_form.php:3
+msgid "Or login using:"
+msgstr "Ou acesse usando:"
+
+#: wp-opauth.php:25
+msgid "Configuration file missing at %s. Opauth disabled."
+msgstr "Arquivo de configuração faltando em %s. Opauth desabilitado."
+
+#. Plugin Name of the plugin/theme
+msgid "Opauth"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://labculturadigital.org/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Adds Opauth (opauth.org) support"
+msgstr "Adiciona suporte Opauth (opauth.org)"
+
+#. Author of the plugin/theme
+msgid "Laboratório de Cultura Digital - Flávio Zavan"
+msgstr ""
+
