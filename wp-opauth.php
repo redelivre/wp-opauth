@@ -23,7 +23,7 @@ if (!file_exists(CONF_FILE))
 {
 	trigger_error(
 			__('Configuration file missing at ' . CONF_FILE
-				. '. Wordpress Opauth disabled.'), E_USER_NOTICE);
+				. '. Opauth disabled.'), E_USER_NOTICE);
 	return;
 }
 
