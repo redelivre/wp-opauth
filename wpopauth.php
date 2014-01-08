@@ -144,10 +144,32 @@ class WPOpauth
 		echo "</script>";
 	}
 
-	private static function getUsername($response)
+	private static function getUsername($name)
 	{
-		return substr(sanitize_user($response['auth']['info']['name'], true),
-				0, 16);
+		return substr(sanitize_user($name, true), 0, 16);
+	}
+
+	private static function getName($response)
+	{
+		if (array_key_exists('name', $response['auth']['info']))
+		{
+			return $response['auth']['info']['name'];
+		}
+		$name = '';
+		if (array_key_exists('first_name', $response['auth']['info']))
+		{
+			$name = $response['auth']['info']['first_name'];
+		}
+		if (array_key_exists('last_name', $response['auth']['info']))
+		{
+			if ($name)
+			{
+				$name .= ' ';
+			}
+			$name .= $response['auth']['info']['last_name'];
+		}
+
+		return ($name? $name : __('Anonymous', 'wp-opauth'));
 	}
 
 	private static function createUser($response)
@@ -156,7 +178,8 @@ class WPOpauth
 
 		$table = self::getUserTableName();
 
-		$prefix = self::getUsername($response);
+		$name = self::getName($response);
+		$prefix = self::getUsername($name);
 		$suffix = '';
 		$username = '';
 
@@ -167,7 +190,7 @@ class WPOpauth
 
 		$user = array();
 		$user['user_login'] = $username;
-		$user['first_name'] = $response['auth']['info']['name'];
+		$user['first_name'] = $name;
 		$user['user_pass'] = $response['signature'];
 		if (array_key_exists('email', $response['auth']['info']))
 		{
