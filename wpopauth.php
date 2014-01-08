@@ -2,7 +2,7 @@
 
 class WPOpauth
 {
-	private $opauth, $originalStrategies, $callbackURLs;
+	private $opauth, $originalStrategies;
 
 	public function __construct($config = array())
 	{
@@ -45,8 +45,6 @@ class WPOpauth
 			}
 			$error .= '</ul>';
 		}
-
-		$this->loadCallbackURLs();
 
 		if (sizeof($config['Strategy']))
 		{
@@ -310,7 +308,8 @@ class WPOpauth
 	{
 		$strategies = $this->originalStrategies;
 		$values = $this->opauth->config['Strategy'];
-		$callbackURLs = $this->callbackURLs;
+		$callbackURLs = $this->loadCallbackURLs();
+
 
 		if (!empty($_POST))
 		{
@@ -360,13 +359,15 @@ class WPOpauth
 	{
 		require WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'callbacksuffixes.php';
 
-		$this->callbackURLs = array();
+		$callbackURLs = array();
 		foreach ($callbackSuffixes as $strategy => $suffix)
 		{
-			$this->callbackURLs[$strategy] =
+			$callbackURLs[$strategy] =
 				network_site_url($this->opauth->config['path'])
 				. strtolower($strategy) . '/' . $suffix;
 		}
+
+		return $callbackURLs;
 	}
 }
 
