@@ -1,1 +1,1 @@
-RedirectMatch 403 "^.*/wp-opauth/opauth/*"
+RedirectMatch 403 "^.*/wp-opauth/(opauth|strategies)/*"
