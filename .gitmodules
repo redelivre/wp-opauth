@@ -1,3 +1,69 @@
 [submodule "opauth"]
 	path = opauth
 	url = https://github.com/opauth/opauth.git
+[submodule "strategies/behance"]
+	path = strategies/behance
+	url = https://github.com/markusbegiebing/opauth-behance.git
+[submodule "strategies/bitbucket"]
+	path = strategies/bitbucket
+	url = https://github.com/fancyguy/opauth-bitbucket.git
+[submodule "strategies/bitly"]
+	path = strategies/bitly
+	url = https://github.com/jelled/opauth-bitly.git
+[submodule "strategies/disqus"]
+	path = strategies/disqus
+	url = https://github.com/rasa/opauth-disqus.git
+[submodule "strategies/do"]
+	path = strategies/do
+	url = https://github.com/arbales/opauth-do.git
+[submodule "strategies/evernote"]
+	path = strategies/evernote
+	url = https://github.com/evernote/opauth-evernote.git
+[submodule "strategies/facebook"]
+	path = strategies/facebook
+	url = https://github.com/opauth/facebook.git
+[submodule "strategies/flickr"]
+	path = strategies/flickr
+	url = https://github.com/pocket7878/opauth-flickr.git
+[submodule "strategies/foursquare"]
+	path = strategies/foursquare
+	url = https://github.com/pocket7878/opauth-foursquare.git
+[submodule "strategies/github"]
+	path = strategies/github
+	url = https://github.com/opauth/github.git
+[submodule "strategies/google"]
+	path = strategies/google
+	url = https://github.com/opauth/google.git
+[submodule "strategies/instagram"]
+	path = strategies/instagram
+	url = https://github.com/muhdazrain/opauth-instagram.git
+[submodule "strategies/linkedin"]
+	path = strategies/linkedin
+	url = https://github.com/opauth/linkedin.git
+[submodule "strategies/mixi"]
+	path = strategies/mixi
+	url = https://github.com/ritou/opauth-mixi.git
+[submodule "strategies/live"]
+	path = strategies/live
+	url = https://github.com/opauth/live.git
+[submodule "strategies/openid"]
+	path = strategies/openid
+	url = https://github.com/opauth/openid.git
+[submodule "strategies/paypal"]
+	path = strategies/paypal
+	url = https://github.com/rasa/opauth-paypal.git
+[submodule "strategies/sinaweibo"]
+	path = strategies/sinaweibo
+	url = https://github.com/dgrabla/opauth-sinaweibo.git
+[submodule "strategies/twitter"]
+	path = strategies/twitter
+	url = https://github.com/opauth/twitter.git
+[submodule "strategies/vimeo"]
+	path = strategies/vimeo
+	url = https://github.com/LubosRemplik/opauth-vimeo.git
+[submodule "strategies/vkontakte"]
+	path = strategies/vkontakte
+	url = https://github.com/dgrabla/opauth-vkontakte.git
+[submodule "strategies/yahoojp"]
+	path = strategies/yahoojp
+	url = https://github.com/ritou/opauth-yahoojp.git
