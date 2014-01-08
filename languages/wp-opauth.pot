@@ -4,13 +4,31 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-08 14:09:26+00:00\n"
+"POT-Creation-Date: 2014-01-08 22:43:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2014-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+
+#. #-#-#-#-#  wp-opauth.pot (Opauth 0.01)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: views/admin_page.php:1
+msgid "Opauth"
+msgstr ""
+
+#: views/admin_page.php:17
+msgid "Enabled"
+msgstr ""
+
+#: views/admin_page.php:39
+msgid "Return URL"
+msgstr ""
+
+#: views/admin_page.php:45
+msgid "Store Settings"
+msgstr ""
 
 #: views/login_form.php:3
 msgid "Or login using:"
@@ -20,12 +38,8 @@ msgstr ""
 msgid "Configuration file missing at %s. Opauth disabled."
 msgstr ""
 
-#: wpopauth.php:172
+#: wpopauth.php:198
 msgid "Anonymous"
-msgstr ""
-
-#. Plugin Name of the plugin/theme
-msgid "Opauth"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
