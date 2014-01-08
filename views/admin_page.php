@@ -33,6 +33,12 @@
 					echo '<br>';
 				}
 			}
+			if (array_key_exists($id, $callbackURLs))
+			{
+				echo "<span>";
+				_e('Return URL', 'wp-opauth');
+				echo ': ', $callbackURLs[$id], '</span>';
+			}
 			echo '</div>';
 		}
 	?>

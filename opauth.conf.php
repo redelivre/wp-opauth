@@ -11,10 +11,10 @@ $config = array(
 	'callback_transport' => 'post',
 	'strategy_dir' => WPOPAUTH_PATH . DIRECTORY_SEPARATOR
 		. 'strategies' .  DIRECTORY_SEPARATOR,
-	
+
 	/* Generated automatically and stored in the DB */
 	'security_salt' => null,
-	
+
 	/* Values defined as null will be configurable through the admin panel */
 	'Strategy' => array(
 		'GitHub' => array(
