@@ -19,8 +19,6 @@ class WPOpauth
 		}
 
 		$this->opauth = new Opauth($config, false);
-		/* Override host to enable multisite support */
-		$this->opauth->env['host'] = preg_replace('/\/$/', '', network_site_url());
 
 		/* Show errors */
 		if (array_key_exists('wp-opauth-errors', $_POST))
@@ -80,8 +78,18 @@ class WPOpauth
 			$params = explode('/', $matches[1]);
 			if (sizeof($params) >= 2
 					&& !empty($params[0]) && !empty($params[1])
-					&& array_key_exists('state', $_GET)) {
+					&& array_key_exists('state', $_GET))
+			{
 				$this->opauth->env['callback_url'] .= '?state=' . $_GET['state'];
+			}
+
+			/* Override host when not using openid to make multisite support easier
+			 * to configure */
+			$pos = strpos($params[0], '?');
+			$strategy = ($pos === false? $params[0] : substr($params[0], 0, $pos));
+			if ($strategy !== 'openid')
+			{
+				$this->opauth->env['host'] = preg_replace('/\/$/', '', network_site_url());
 			}
 
 			$this->opauth->run();
