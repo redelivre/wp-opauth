@@ -18,30 +18,36 @@ How to use
 	git clone https://github.com/redelivre/wp-opauth.git
 	```
 
-2. Download the submodule
+2. Download the submodules
 	```bash
 	cd wp-opauth
 	git submodule init
 	git submodule update
 	```
 
-3. Create or copy a configuration file to the plugin root.
-	```bash
-	cp opauth/example/opauth.conf.php.default opauth.conf.php
-	```
-
-4. Download and configure the strategies. Place them in
-	opauth/lib/Opauth/Strategy. The callback urls are prefixed by
-	PLUGIN_URL/PLUGIN_DIRECTORY/auth. For example:
-	http://example.com/wp-content/plugins/wp-opauth/auth/strategy/cb
-
-5. Enable the plugin in the admin panel.
+3. Configure the plugin via the network administration panel
 
 Multisite
 ---------
 This plugin does support multisite, however the strategy has to support
 the state parameter and use POST instead of sessions. This is true for most of
 the currently available strategies.
+
+Configuration is done network wise. So different blogs owners don't have to get
+difrrent keys and painfully set everything up.
+
+Adding Strategies
+---------
+Here are the instruction to add a new strategy that isn't yet a submodule.
+
+1. Place it in the strategies directory
+
+2. Update opauth.conf.php's Strategy array.
+Make sure the variables you want the user to edit are set to null.
+
+3. If the strategy needs a return url to be configured. Add its suffix
+to the array in callbacksuffixes.php. This step is optional, but does help the
+user when configuring.
 
 License
 ---------
