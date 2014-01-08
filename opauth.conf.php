@@ -9,10 +9,11 @@ $config = array(
 	'callback_url' => preg_replace('/^' . preg_quote(site_url(), '/') . '/',
 			'', WP_PLUGIN_URL) . "/wp-opauth/auth/callback.php",
 	'callback_transport' => 'post',
-	'strategy_dir' => WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'strategies',
+	'strategy_dir' => WPOPAUTH_PATH . DIRECTORY_SEPARATOR
+		. 'strategies' .  DIRECTORY_SEPARATOR,
 	
-	/* Generated and stored in the DB */
-	'security_salt' => '',
+	/* Generated automatically and stored in the DB */
+	'security_salt' => null,
 	
 	/* Values defined as null will be configurable through the admin panel */
 	'Strategy' => array(

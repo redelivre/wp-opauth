@@ -2,17 +2,35 @@
 
 class WPOpauth
 {
-	private $opauth;
+	private $opauth, $originalStrategies;
 
 	public function __construct($config = array())
 	{
+		$this->originalStrategies = $config['Strategy'];
+		/* Only OpenID is enabled by default as it doesn't need to be configured */
+		$strategies = get_site_option('wp-opauth-strategies',
+				array('OpenID' => array()));
+		$salt = get_site_option('wp-opauth-salt');
+
+		if ($salt === false)
+		{
+			$salt = self::generateRandomSalt();
+			add_site_option('wp-opauth-salt', $salt);
+		}
+
+		$config['security_salt'] = $salt;
+		$config['Strategy'] = $strategies;
+
 		/* Set the state for multisite support */
 		foreach ($config['Strategy'] as &$strategy)
 		{
 			$strategy['state'] = get_current_blog_id();
 		}
 
-		$this->opauth = new Opauth($config, false);
+		if (sizeof($config['Strategy']))
+		{
+			$this->opauth = new Opauth($config, false);
+		}
 
 		/* Show errors */
 		if (array_key_exists('wp-opauth-errors', $_POST))
@@ -28,8 +46,12 @@ class WPOpauth
 			$error .= '</ul>';
 		}
 
-		add_action('login_form', array($this, 'loginForm'));
-		add_action('init', array($this, 'init'));
+		if (sizeof($config['Strategy']))
+		{
+			add_action('login_form', array($this, 'loginForm'));
+			add_action('init', array($this, 'init'));
+		}
+		add_action('network_admin_menu', array($this, 'admin_menu'));
 	}
 
 	public function loginForm()
@@ -271,6 +293,64 @@ class WPOpauth
 		$user = wp_set_current_user($uid);
 		wp_set_auth_cookie($user->ID);
 		do_action('wp_login', $user->user_login);
+	}
+
+	public function admin_menu()
+	{
+		add_menu_page('Opauth Plugin Options',
+				'Opauth',
+				'manage_options',
+				'wp-opauth',
+				array($this, 'adminOptions'));
+	}
+
+	public function adminOptions()
+	{
+		$strategies = $this->originalStrategies;
+		$values = $this->opauth->config['Strategy'];
+
+		if (!empty($_POST))
+		{
+			$this->saveStrategies($_POST);
+			$values = get_site_option('wp-opauth-strategies');
+		}
+
+		require WPOPAUTH_PATH
+			. DIRECTORY_SEPARATOR . 'views'
+			. DIRECTORY_SEPARATOR . 'admin_page.php';
+	}
+
+	public function saveStrategies($candidate)
+	{
+		$strategies = array();
+
+		foreach ($candidate as $id => $info)
+		{
+			/* Only store enabled strategies that are in the config file */
+			if (array_key_exists($id, $this->originalStrategies)
+					&& array_key_exists('enabled', $info))
+			{
+				$strategies[$id] = $candidate[$id];
+				unset($strategies[$id]['enabled']);
+			}
+		}
+
+		update_site_option('wp-opauth-strategies', $strategies);
+	}
+
+	public static function generateRandomSalt()
+	{
+		$alphabet = 'abcdefghijklmnopqrstuvwxyz';
+		$alphabet .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$alphabet .= '0123456789';
+		$length = mt_rand(64, 128);
+		$salt = '';
+
+		while ($length--) {
+			$salt .= $alphabet[mt_rand(0, strlen($alphabet) - 1)];
+		}
+
+		return $salt;
 	}
 }
 
