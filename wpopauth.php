@@ -6,12 +6,6 @@ class WPOpauth
 
 	public function __construct($config = array())
 	{
-		/* Override Opauth's path, callback_url and callback_transport variables */
-		$config['path'] = preg_replace('/^' . preg_quote(site_url(), '/') . '/',
-				'', WP_PLUGIN_URL) . "/wp-opauth/auth/";
-		$config['callback_url'] = $config['path'] . 'callback.php';
-		$config['callback_transport'] = 'post';
-
 		/* Set the state for multisite support */
 		foreach ($config['Strategy'] as &$strategy)
 		{
