@@ -26,9 +26,10 @@ load_plugin_textdomain('wp-opauth', false,
 		dirname(plugin_basename(__FILE__)) . '/languages/');
 if (!file_exists(OPAUTH_CLASS_FILE))
 {
-	trigger_error(__('The Opauth class file was not found. '
-			. 'Did you download the submodules? Read the README file for '
-			. 'more information', 'wp-opauth'), E_USER_NOTICE);
+	trigger_error(__('The Opauth class file was not found.', 'wp-opauth') . ' '
+			. __('Did you download the submodules?', 'wp-opauth') . ' '
+			. __('Read the README file for more information', 'wp-opauth'),
+			E_USER_NOTICE);
 	return;
 }
 

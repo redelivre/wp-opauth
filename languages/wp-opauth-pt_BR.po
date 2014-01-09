@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-09 19:10:50+00:00\n"
-"PO-Revision-Date: 2014-01-09 17:11-0300\n"
+"POT-Creation-Date: 2014-01-09 20:51:31+00:00\n"
+"PO-Revision-Date: 2014-01-09 18:52-0300\n"
 "Last-Translator: Flávio\n"
 "Language-Team: Flávio Zavan\n"
 "Language: \n"
@@ -45,7 +45,19 @@ msgstr "Guardar Configurações"
 msgid "Or login using:"
 msgstr "Ou acesse usando:"
 
-#: wpopauth.php:213
+#: wp-opauth.php:29
+msgid "The Opauth class file was not found."
+msgstr "O arquivo da classe Opauth não foi encontrado."
+
+#: wp-opauth.php:30
+msgid "Did you download the submodules?"
+msgstr "Você baixou os submódulos?"
+
+#: wp-opauth.php:31
+msgid "Read the README file for more information"
+msgstr "Leia o arquivo README para mais informação"
+
+#: wpopauth.php:206
 msgid "Anonymous"
 msgstr "Anônimo"
 
