@@ -2,7 +2,7 @@
 
 class WPOpauth
 {
-	private $opauth, $originalStrategies;
+	private $opauth, $originalStrategies, $areButtonsOutside;
 
 	public function __construct($config = array())
 	{
@@ -11,6 +11,8 @@ class WPOpauth
 		$strategies = get_site_option('wp-opauth-strategies',
 				array('OpenID' => array()));
 		$salt = get_site_option('wp-opauth-salt');
+		$this->areButtonsOutside =
+			get_site_option('wp-opauth-arebuttonsoutside', true);
 
 		if ($salt === false)
 		{
@@ -65,6 +67,11 @@ class WPOpauth
 	{
 		$strategies = $this->opauth->strategyMap;
 
+		if ($this->areButtonsOutside)
+		{
+			wp_enqueue_script('wp-opauth-login-movebuttons',
+					plugins_url('js/movebuttons.js', __FILE__));
+		}
 		wp_enqueue_style('wp-opauth-login',
 				plugins_url('css/login.css', __FILE__));
 
@@ -319,12 +326,14 @@ class WPOpauth
 		$strategies = $this->originalStrategies;
 		$values = $this->opauth->config['Strategy'];
 		$callbackURLs = $this->loadCallbackURLs();
+		$areButtonsOutside = $this->areButtonsOutside;
 
 
 		if (!empty($_POST))
 		{
-			$this->saveStrategies($_POST);
+			$this->saveSettings($_POST);
 			$values = get_site_option('wp-opauth-strategies');
+			$areButtonsOutside = get_site_option('wp-opauth-arebuttonsoutside');
 		}
 
 		require WPOPAUTH_PATH
@@ -332,9 +341,10 @@ class WPOpauth
 			. DIRECTORY_SEPARATOR . 'admin_page.php';
 	}
 
-	public function saveStrategies($candidate)
+	public function saveSettings($candidate)
 	{
 		$strategies = array();
+		$areButtonsOutside = array_key_exists('areButtonsOutside', $candidate);
 
 		foreach ($candidate as $id => $info)
 		{
@@ -355,6 +365,7 @@ class WPOpauth
 		}
 
 		update_site_option('wp-opauth-strategies', $strategies);
+		update_site_option('wp-opauth-arebuttonsoutside', $areButtonsOutside);
 	}
 
 	public static function generateRandomSalt()

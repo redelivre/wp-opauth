@@ -1,7 +1,11 @@
 <h1><?php _e('Opauth', 'wp-opauth'); ?></h1>
 
 <form id="opauth-config" method="post">
+	<h2><?php _e('General Options', 'wp-opauth'); ?></h2>
+	<input type="checkbox" name="areButtonsOutside"
+		<?php if ($areButtonsOutside) echo 'checked="yes"'; ?> >
 	<?php
+		_e('Try placing the login buttons below the login form', 'wp-opauth');
 		ksort($strategies);
 		foreach ($strategies as $id => $info)
 		{
