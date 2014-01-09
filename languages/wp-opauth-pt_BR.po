@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-08 22:43:20+00:00\n"
-"PO-Revision-Date: 2014-01-08 20:44-0300\n"
+"POT-Creation-Date: 2014-01-09 13:21:42+00:00\n"
+"PO-Revision-Date: 2014-01-09 11:22-0300\n"
 "Last-Translator: Flávio\n"
 "Language-Team: Flávio Zavan\n"
 "Language: \n"
@@ -37,11 +37,7 @@ msgstr "Guardar Configurações"
 msgid "Or login using:"
 msgstr "Ou acesse usando:"
 
-#: wp-opauth.php:30
-msgid "Configuration file missing at %s. Opauth disabled."
-msgstr "Arquivo de configuração faltando em %s. Opauth desabilitado."
-
-#: wpopauth.php:198
+#: wpopauth.php:203
 msgid "Anonymous"
 msgstr "Anônimo"
 
@@ -57,3 +53,5 @@ msgstr "Adiciona suporte Opauth (opauth.org)"
 msgid "Laboratório de Cultura Digital - Flávio Zavan"
 msgstr ""
 
+#~ msgid "Configuration file missing at %s. Opauth disabled."
+#~ msgstr "Arquivo de configuração faltando em %s. Opauth desabilitado."
