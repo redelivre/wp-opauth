@@ -49,6 +49,9 @@ Make sure the variables you want the user to edit are set to null.
 to the array in callbacksuffixes.php. This step is optional, but does help the
 user when configuring.
 
+4. Place the favicon inside the favicons directory. This is also optional, but
+recommended as the icon is shown to the user when logging in.
+
 License
 ---------
 The MIT License
