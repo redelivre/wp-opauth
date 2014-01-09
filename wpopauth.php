@@ -53,7 +53,7 @@ class WPOpauth
 			add_action('login_form', array($this, 'loginForm'));
 			add_action('init', array($this, 'init'));
 		}
-		add_action('network_admin_menu', array($this, 'admin_menu'));
+		add_action('network_admin_menu', array($this, 'adminMenu'));
 		add_action('plugins_loaded',
 				function ()
 				{
@@ -312,7 +312,7 @@ class WPOpauth
 		do_action('wp_login', $user->user_login);
 	}
 
-	public function admin_menu()
+	public function adminMenu()
 	{
 		add_menu_page('Opauth Plugin Options',
 				'Opauth',
