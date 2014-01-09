@@ -332,8 +332,15 @@ class WPOpauth
 			if (array_key_exists($id, $this->originalStrategies)
 					&& array_key_exists('enabled', $info))
 			{
-				$strategies[$id] = $candidate[$id];
-				unset($strategies[$id]['enabled']);
+				$strategies[$id] = array();
+				/* Only set the keys that are present in the filee */
+				foreach ($info as $key => $v)
+				{
+					if (array_key_exists($key, $this->originalStrategies[$id]))
+					{
+						$strategies[$id][$key] = $v;
+					}
+				}
 			}
 		}
 
