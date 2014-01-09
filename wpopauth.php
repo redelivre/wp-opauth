@@ -65,6 +65,9 @@ class WPOpauth
 	{
 		$strategies = $this->opauth->strategyMap;
 
+		wp_enqueue_style('wp-opauth-login',
+				plugins_url('css/login.css', __FILE__));
+
 		require WPOPAUTH_PATH
 			. DIRECTORY_SEPARATOR . 'views'
 			. DIRECTORY_SEPARATOR . 'login_form.php';

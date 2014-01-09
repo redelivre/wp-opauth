@@ -1,0 +1,10 @@
+.wp-opauth-login-clear
+{
+	clear: both;
+}
+
+.wp-opauth-login-strategy
+{
+	width: 49%;
+	float: left;
+}
