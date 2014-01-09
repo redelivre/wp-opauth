@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-09 13:21:42+00:00\n"
-"PO-Revision-Date: 2014-01-09 11:22-0300\n"
+"POT-Creation-Date: 2014-01-09 19:10:50+00:00\n"
+"PO-Revision-Date: 2014-01-09 17:11-0300\n"
 "Last-Translator: Flávio\n"
 "Language-Team: Flávio Zavan\n"
 "Language: \n"
@@ -21,15 +21,23 @@ msgstr ""
 msgid "Opauth"
 msgstr ""
 
-#: views/admin_page.php:17
+#: views/admin_page.php:4
+msgid "General Options"
+msgstr "Opções Gerais"
+
+#: views/admin_page.php:8
+msgid "Try placing the login buttons below the login form"
+msgstr "Tentar colocar os botões de login abaixo do formulário"
+
+#: views/admin_page.php:21
 msgid "Enabled"
 msgstr "Habilitado"
 
-#: views/admin_page.php:39
+#: views/admin_page.php:43
 msgid "Return URL"
 msgstr "URL de Retorno"
 
-#: views/admin_page.php:45
+#: views/admin_page.php:49
 msgid "Store Settings"
 msgstr "Guardar Configurações"
 
@@ -37,7 +45,7 @@ msgstr "Guardar Configurações"
 msgid "Or login using:"
 msgstr "Ou acesse usando:"
 
-#: wpopauth.php:203
+#: wpopauth.php:213
 msgid "Anonymous"
 msgstr "Anônimo"
 
