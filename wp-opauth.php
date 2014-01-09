@@ -18,9 +18,22 @@ define('OPAUTH_PATH',
 		. DIRECTORY_SEPARATOR . 'Opauth');
 define('WPOPAUTH_PATH', dirname(__FILE__));
 define('WPOPAUTH_USER_TABLE_NAME', 'wpopauth_users');
+define('OPAUTH_CLASS_FILE', OPAUTH_PATH . DIRECTORY_SEPARATOR . 'Opauth.php');
+
+/* This is not the best place for loading the translations. But we need for the
+ * error message below. */
+load_plugin_textdomain('wp-opauth', false,
+		dirname(plugin_basename(__FILE__)) . '/languages/');
+if (!file_exists(OPAUTH_CLASS_FILE))
+{
+	trigger_error(__('The Opauth class file was not found. '
+			. 'Did you download the submodules? Read the README file for '
+			. 'more information', 'wp-opauth'), E_USER_NOTICE);
+	return;
+}
 
 require_once CONF_FILE;
-require_once OPAUTH_PATH . DIRECTORY_SEPARATOR . 'Opauth.php';
+require_once OPAUTH_CLASS_FILE;
 require_once WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'wpopauth.php';
 
 $opauth = new WPOpauth($config);

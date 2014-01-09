@@ -54,13 +54,6 @@ class WPOpauth
 			add_action('init', array($this, 'init'));
 		}
 		add_action('network_admin_menu', array($this, 'adminMenu'));
-		add_action('plugins_loaded',
-				function ()
-				{
-					load_plugin_textdomain('wp-opauth', false,
-							dirname(plugin_basename(__FILE__)) . '/languages/');
-				}
-		);
 	}
 
 	public function loginForm()
