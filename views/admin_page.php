@@ -7,6 +7,14 @@
 	<?php
 		_e('Try placing the login buttons below the login form', 'wp-opauth');
 	?>
+	<h3>Custom openid providers</h3>
+	<p><i><?php
+		_e('Requires the openid strategy to be enabled', 'wp-opauth');
+	?></i></p>
+	<?php
+		require WPOPAUTH_PATH . DIRECTORY_SEPARATOR
+			. 'views' .  DIRECTORY_SEPARATOR . 'custom_openid.php';
+	?>
 	<h2><?php _e('Strategies', 'wp-opauth'); ?></h2>
 	<?php
 		ksort($strategies);

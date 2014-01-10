@@ -2,11 +2,12 @@
 
 class WPOpauth
 {
-	private $opauth, $originalStrategies, $areButtonsOutside;
+	private $opauth, $originalStrategies, $areButtonsOutside, $originalPath;
 
 	public function __construct($config = array())
 	{
 		$this->originalStrategies = $config['Strategy'];
+		$this->originalPath = $config['path'];
 		/* Only OpenID is enabled by default as it doesn't need to be configured */
 		$strategies = get_site_option('wp-opauth-strategies',
 				array('OpenID' => array()));
@@ -317,10 +318,10 @@ class WPOpauth
 	public function adminOptions()
 	{
 		$strategies = $this->originalStrategies;
-		$values = $this->opauth->config['Strategy'];
+		$values = (isset($this->opauth)?
+				$this->opauth->config['Strategy'] : array());
 		$callbackURLs = $this->loadCallbackURLs();
 		$areButtonsOutside = $this->areButtonsOutside;
-
 
 		if (!empty($_POST))
 		{
@@ -328,6 +329,13 @@ class WPOpauth
 			$values = get_site_option('wp-opauth-strategies');
 			$areButtonsOutside = get_site_option('wp-opauth-arebuttonsoutside');
 		}
+
+		wp_enqueue_script('wp-opauth-custom-openid',
+				plugins_url('js/customopenid.js', __FILE__));
+		wp_localize_script('wp-opauth-custom-openid', 'i10n',
+				array(
+					'defaultURL' => __("Provider's login url", 'wp-opauth'),
+					'remove' => __("Remove", 'wp-opauth')));
 
 		require WPOPAUTH_PATH
 			. DIRECTORY_SEPARATOR . 'views'
@@ -387,7 +395,7 @@ class WPOpauth
 		foreach ($callbackSuffixes as $strategy => $suffix)
 		{
 			$callbackURLs[$strategy] =
-				network_site_url($this->opauth->config['path'])
+				network_site_url($this->originalPath)
 				. strtolower($strategy) . '/' . $suffix;
 		}
 
