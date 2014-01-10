@@ -37,4 +37,9 @@ jQuery(document).ready(function()
 		}
 		return true;
 	});
+
+	jQuery('.wp-opauth-custom-openid-item input[type="button"]').click(function()
+	{
+		jQuery(this).parent().remove();
+	});
 });

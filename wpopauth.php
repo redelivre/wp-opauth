@@ -2,7 +2,11 @@
 
 class WPOpauth
 {
-	private $opauth, $originalStrategies, $areButtonsOutside, $originalPath;
+	private $opauth,
+					$originalStrategies,
+					$areButtonsOutside,
+					$originalPath,
+					$networkCustomOpenID;
 
 	public function __construct($config = array())
 	{
@@ -14,6 +18,8 @@ class WPOpauth
 		$salt = get_site_option('wp-opauth-salt');
 		$this->areButtonsOutside =
 			get_site_option('wp-opauth-arebuttonsoutside', true);
+		$this->networkCustomOpenID =
+			get_site_option('wp-opauth-network-custom-openid', array());
 
 		if ($salt === false)
 		{
@@ -322,19 +328,22 @@ class WPOpauth
 				$this->opauth->config['Strategy'] : array());
 		$callbackURLs = $this->loadCallbackURLs();
 		$areButtonsOutside = $this->areButtonsOutside;
+		$customOpenID = $this->networkCustomOpenID;
 
 		if (!empty($_POST))
 		{
 			$this->saveSettings($_POST);
 			$values = get_site_option('wp-opauth-strategies');
 			$areButtonsOutside = get_site_option('wp-opauth-arebuttonsoutside');
+			$customOpenID =
+				get_site_option('wp-opauth-network-custom-openid', array());
 		}
 
 		wp_enqueue_script('wp-opauth-custom-openid',
 				plugins_url('js/customopenid.js', __FILE__));
 		wp_localize_script('wp-opauth-custom-openid', 'i10n',
 				array(
-					'defaultURL' => __("Provider's login url", 'wp-opauth'),
+					'defaultURL' => __("Login URL", 'wp-opauth'),
 					'remove' => __("Remove", 'wp-opauth')));
 
 		require WPOPAUTH_PATH
@@ -345,8 +354,16 @@ class WPOpauth
 	public function saveSettings($candidate)
 	{
 		$strategies = array();
+		$customOpenID = array();
 		$areButtonsOutside = array_key_exists('areButtonsOutside', $candidate);
 
+		if (array_key_exists('customopenid', $candidate))
+		{
+			foreach ($candidate['customopenid'] as $id => $url)
+			{
+				$customOpenID[$id] = (string) $url;
+			}
+		}
 		if (array_key_exists('strategies', $candidate))
 		{
 			foreach ($candidate['strategies'] as $id => $info)
@@ -368,6 +385,7 @@ class WPOpauth
 			}
 		}
 
+		update_site_option('wp-opauth-network-custom-openid', $customOpenID);
 		update_site_option('wp-opauth-strategies', $strategies);
 		update_site_option('wp-opauth-arebuttonsoutside', $areButtonsOutside);
 	}
