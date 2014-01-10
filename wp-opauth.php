@@ -7,6 +7,7 @@ Description: Adds Opauth (opauth.org) support
 Author: Laboratório de Cultura Digital - Flávio Zavan
 Version: 0.01
 Text Domain: wp-opauth
+Network: true
 */
 
 define('CONF_FILE',
