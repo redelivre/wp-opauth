@@ -339,19 +339,22 @@ class WPOpauth
 		$strategies = array();
 		$areButtonsOutside = array_key_exists('areButtonsOutside', $candidate);
 
-		foreach ($candidate as $id => $info)
+		if (array_key_exists('strategies', $candidate))
 		{
-			/* Only store enabled strategies that are in the config file */
-			if (array_key_exists($id, $this->originalStrategies)
-					&& array_key_exists('enabled', $info))
+			foreach ($candidate['strategies'] as $id => $info)
 			{
-				$strategies[$id] = array();
-				/* Only set the keys that are present in the filee */
-				foreach ($info as $key => $v)
+				/* Only store enabled strategies that are in the config file */
+				if (array_key_exists($id, $this->originalStrategies)
+						&& array_key_exists('enabled', $info))
 				{
-					if (array_key_exists($key, $this->originalStrategies[$id]))
+					$strategies[$id] = array();
+					/* Only set the keys that are present in the filee */
+					foreach ($info as $key => $v)
 					{
-						$strategies[$id][$key] = $v;
+						if (array_key_exists($key, $this->originalStrategies[$id]))
+						{
+							$strategies[$id][$key] = $v;
+						}
 					}
 				}
 			}

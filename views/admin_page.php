@@ -6,18 +6,21 @@
 		<?php if ($areButtonsOutside) echo 'checked="yes"'; ?> >
 	<?php
 		_e('Try placing the login buttons below the login form', 'wp-opauth');
+	?>
+	<h2><?php _e('Strategies', 'wp-opauth'); ?></h2>
+	<?php
 		ksort($strategies);
 		foreach ($strategies as $id => $info)
 		{
 			$hid = htmlspecialchars($id);
 			echo '<div class="opauth-strategy-config">';
-			echo "<h2>$hid</h2>";
+			echo "<h3>$hid</h3>";
 			echo '<input ';
 			if (array_key_exists($id, $values))
 			{
 				echo 'checked="yes" ';
 			}
-			echo "type=\"checkbox\" name=\"{$hid}[enabled]\"> ";
+			echo "type=\"checkbox\" name=\"strategies[{$hid}][enabled]\"> ";
 			_e('Enabled', 'wp-opauth');
 			echo '<br>';
 			foreach ($info as $name => $v)
@@ -33,7 +36,7 @@
 					{
 						echo 'value="' . htmlspecialchars($values[$id][$name]) . '" ';
 					}
-					echo "type=\"text\" name=\"{$hid}[$name]\">";
+					echo "type=\"text\" name=\"strategies[{$hid}][$name]\">";
 					echo '<br>';
 				}
 			}
