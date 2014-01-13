@@ -13,7 +13,7 @@
 	<?php
 		_e('Allow individual sites to specify custom openid providers', 'wp-opauth');
 	?>
-	<h3>Custom openid providers</h3>
+	<h3><?php _e('Custom openid providers', 'wp-opauth'); ?></h3>
 	<p><i><?php
 		_e('Requires the openid strategy to be enabled', 'wp-opauth');
 	?></i></p>
