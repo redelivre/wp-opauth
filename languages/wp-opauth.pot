@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-13 16:34:42+00:00\n"
+"POT-Creation-Date: 2014-01-13 16:40:44+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,6 +16,10 @@ msgstr ""
 #. Plugin Name of the plugin/theme
 #: views/admin_page.php:1 views/network_admin_page.php:1
 msgid "Opauth"
+msgstr ""
+
+#: views/admin_page.php:4 views/network_admin_page.php:16
+msgid "Custom openid providers"
 msgstr ""
 
 #: views/admin_page.php:6

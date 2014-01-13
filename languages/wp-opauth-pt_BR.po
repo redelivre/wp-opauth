@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-13 16:34:42+00:00\n"
-"PO-Revision-Date: 2014-01-13 14:37-0300\n"
+"POT-Creation-Date: 2014-01-13 16:40:44+00:00\n"
+"PO-Revision-Date: 2014-01-13 14:41-0300\n"
 "Last-Translator: Flávio\n"
 "Language-Team: Flávio Zavan\n"
 "Language: \n"
@@ -21,6 +21,11 @@ msgstr ""
 #: views/network_admin_page.php:1
 msgid "Opauth"
 msgstr ""
+
+#: views/admin_page.php:4
+#: views/network_admin_page.php:16
+msgid "Custom openid providers"
+msgstr "Provedores openid customizados"
 
 #: views/admin_page.php:6
 msgid "Requires the openid strategy to be enabled in the network"
