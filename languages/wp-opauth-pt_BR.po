@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-09 20:51:31+00:00\n"
-"PO-Revision-Date: 2014-01-09 18:52-0300\n"
+"POT-Creation-Date: 2014-01-13 16:34:42+00:00\n"
+"PO-Revision-Date: 2014-01-13 14:37-0300\n"
 "Last-Translator: Flávio\n"
 "Language-Team: Flávio Zavan\n"
 "Language: \n"
@@ -18,48 +18,81 @@ msgstr ""
 #. #-#-#-#-#  wp-opauth.pot (Opauth 0.01)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
 #: views/admin_page.php:1
+#: views/network_admin_page.php:1
 msgid "Opauth"
 msgstr ""
 
-#: views/admin_page.php:4
-msgid "General Options"
-msgstr "Opções Gerais"
+#: views/admin_page.php:6
+msgid "Requires the openid strategy to be enabled in the network"
+msgstr "Requer que a estratégia openid esteja habilitada na rede"
 
-#: views/admin_page.php:8
-msgid "Try placing the login buttons below the login form"
-msgstr "Tentar colocar os botões de login abaixo do formulário"
-
-#: views/admin_page.php:21
-msgid "Enabled"
-msgstr "Habilitado"
-
-#: views/admin_page.php:43
-msgid "Return URL"
-msgstr "URL de Retorno"
-
-#: views/admin_page.php:49
+#: views/admin_page.php:14
+#: views/network_admin_page.php:66
 msgid "Store Settings"
 msgstr "Guardar Configurações"
+
+#: views/custom_openid.php:12
+#: wpopauth.php:363
+#: wpopauth.php:396
+msgid "Remove"
+msgstr "Remover"
+
+#: views/custom_openid.php:21
+msgid "Add"
+msgstr "Adicionar"
 
 #: views/login_form.php:3
 msgid "Or login using:"
 msgstr "Ou acesse usando:"
 
-#: wp-opauth.php:29
+#: views/network_admin_page.php:4
+msgid "General Options"
+msgstr "Opções Gerais"
+
+#: views/network_admin_page.php:8
+msgid "Try placing the login buttons below the login form"
+msgstr "Tentar colocar os botões de login abaixo do formulário"
+
+#: views/network_admin_page.php:14
+msgid "Allow individual sites to specify custom openid providers"
+msgstr "Permitir que sites individuais especifiquem provedores openid customizados"
+
+#: views/network_admin_page.php:18
+msgid "Requires the openid strategy to be enabled"
+msgstr "Requer que a estratégia openid esteja habilitada"
+
+#: views/network_admin_page.php:24
+msgid "Strategies"
+msgstr "Estratégias"
+
+#: views/network_admin_page.php:38
+msgid "Enabled"
+msgstr "Habilitado"
+
+#: views/network_admin_page.php:60
+msgid "Return URL"
+msgstr "URL de Retorno"
+
+#: wp-opauth.php:30
 msgid "The Opauth class file was not found."
 msgstr "O arquivo da classe Opauth não foi encontrado."
 
-#: wp-opauth.php:30
+#: wp-opauth.php:31
 msgid "Did you download the submodules?"
 msgstr "Você baixou os submódulos?"
 
-#: wp-opauth.php:31
+#: wp-opauth.php:32
 msgid "Read the README file for more information"
 msgstr "Leia o arquivo README para mais informação"
 
-#: wpopauth.php:206
+#: wpopauth.php:224
 msgid "Anonymous"
 msgstr "Anônimo"
+
+#: wpopauth.php:362
+#: wpopauth.php:395
+msgid "Login URL"
+msgstr "URL de Login"
 
 #. Plugin URI of the plugin/theme
 msgid "http://labculturadigital.org/"

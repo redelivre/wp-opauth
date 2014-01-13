@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-09 20:51:31+00:00\n"
+"POT-Creation-Date: 2014-01-13 16:34:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,48 +14,76 @@ msgstr ""
 
 #. #-#-#-#-#  wp-opauth.pot (Opauth 0.01)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: views/admin_page.php:1
+#: views/admin_page.php:1 views/network_admin_page.php:1
 msgid "Opauth"
 msgstr ""
 
-#: views/admin_page.php:4
-msgid "General Options"
+#: views/admin_page.php:6
+msgid "Requires the openid strategy to be enabled in the network"
 msgstr ""
 
-#: views/admin_page.php:8
-msgid "Try placing the login buttons below the login form"
-msgstr ""
-
-#: views/admin_page.php:21
-msgid "Enabled"
-msgstr ""
-
-#: views/admin_page.php:43
-msgid "Return URL"
-msgstr ""
-
-#: views/admin_page.php:49
+#: views/admin_page.php:14 views/network_admin_page.php:66
 msgid "Store Settings"
+msgstr ""
+
+#: views/custom_openid.php:12 wpopauth.php:363 wpopauth.php:396
+msgid "Remove"
+msgstr ""
+
+#: views/custom_openid.php:21
+msgid "Add"
 msgstr ""
 
 #: views/login_form.php:3
 msgid "Or login using:"
 msgstr ""
 
-#: wp-opauth.php:29
-msgid "The Opauth class file was not found."
+#: views/network_admin_page.php:4
+msgid "General Options"
+msgstr ""
+
+#: views/network_admin_page.php:8
+msgid "Try placing the login buttons below the login form"
+msgstr ""
+
+#: views/network_admin_page.php:14
+msgid "Allow individual sites to specify custom openid providers"
+msgstr ""
+
+#: views/network_admin_page.php:18
+msgid "Requires the openid strategy to be enabled"
+msgstr ""
+
+#: views/network_admin_page.php:24
+msgid "Strategies"
+msgstr ""
+
+#: views/network_admin_page.php:38
+msgid "Enabled"
+msgstr ""
+
+#: views/network_admin_page.php:60
+msgid "Return URL"
 msgstr ""
 
 #: wp-opauth.php:30
-msgid "Did you download the submodules?"
+msgid "The Opauth class file was not found."
 msgstr ""
 
 #: wp-opauth.php:31
+msgid "Did you download the submodules?"
+msgstr ""
+
+#: wp-opauth.php:32
 msgid "Read the README file for more information"
 msgstr ""
 
-#: wpopauth.php:206
+#: wpopauth.php:224
 msgid "Anonymous"
+msgstr ""
+
+#: wpopauth.php:362 wpopauth.php:395
+msgid "Login URL"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
