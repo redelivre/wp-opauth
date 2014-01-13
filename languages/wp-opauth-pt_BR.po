@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-13 16:40:44+00:00\n"
-"PO-Revision-Date: 2014-01-13 14:41-0300\n"
+"POT-Creation-Date: 2014-01-13 23:34:28+00:00\n"
+"PO-Revision-Date: 2014-01-13 21:34-0300\n"
 "Last-Translator: Flávio\n"
 "Language-Team: Flávio Zavan\n"
 "Language: \n"
@@ -31,18 +31,22 @@ msgstr "Provedores openid customizados"
 msgid "Requires the openid strategy to be enabled in the network"
 msgstr "Requer que a estratégia openid esteja habilitada na rede"
 
-#: views/admin_page.php:14
+#: views/admin_page.php:15
 #: views/network_admin_page.php:66
 msgid "Store Settings"
 msgstr "Guardar Configurações"
 
-#: views/custom_openid.php:12
-#: wpopauth.php:363
-#: wpopauth.php:396
+#: views/custom_openid.php:3
+msgid "Icons are 16x16 png files up to 128 kilobytes"
+msgstr "Ícones são arquivos png 16x16 de até 128 kilobytes"
+
+#: views/custom_openid.php:20
+#: wpopauth.php:365
+#: wpopauth.php:399
 msgid "Remove"
 msgstr "Remover"
 
-#: views/custom_openid.php:21
+#: views/custom_openid.php:29
 msgid "Add"
 msgstr "Adicionar"
 
@@ -90,12 +94,12 @@ msgstr "Você baixou os submódulos?"
 msgid "Read the README file for more information"
 msgstr "Leia o arquivo README para mais informação"
 
-#: wpopauth.php:224
+#: wpopauth.php:225
 msgid "Anonymous"
 msgstr "Anônimo"
 
-#: wpopauth.php:362
-#: wpopauth.php:395
+#: wpopauth.php:363
+#: wpopauth.php:397
 msgid "Login URL"
 msgstr "URL de Login"
 

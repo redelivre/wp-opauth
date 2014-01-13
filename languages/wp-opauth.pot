@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-13 16:40:44+00:00\n"
+"POT-Creation-Date: 2014-01-13 23:34:28+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,15 +26,19 @@ msgstr ""
 msgid "Requires the openid strategy to be enabled in the network"
 msgstr ""
 
-#: views/admin_page.php:14 views/network_admin_page.php:66
+#: views/admin_page.php:15 views/network_admin_page.php:66
 msgid "Store Settings"
 msgstr ""
 
-#: views/custom_openid.php:12 wpopauth.php:363 wpopauth.php:396
+#: views/custom_openid.php:3
+msgid "Icons are 16x16 png files up to 128 kilobytes"
+msgstr ""
+
+#: views/custom_openid.php:20 wpopauth.php:365 wpopauth.php:399
 msgid "Remove"
 msgstr ""
 
-#: views/custom_openid.php:21
+#: views/custom_openid.php:29
 msgid "Add"
 msgstr ""
 
@@ -82,11 +86,11 @@ msgstr ""
 msgid "Read the README file for more information"
 msgstr ""
 
-#: wpopauth.php:224
+#: wpopauth.php:225
 msgid "Anonymous"
 msgstr ""
 
-#: wpopauth.php:362 wpopauth.php:395
+#: wpopauth.php:363 wpopauth.php:397
 msgid "Login URL"
 msgstr ""
 
