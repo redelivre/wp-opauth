@@ -4,20 +4,38 @@
 	</h3>
 	<ul class="wp-opauth-login-strategies">
 		<?php
-			asort($strategies);
+			/* Network defined custom open id providers have priority over the
+			 * default strategies. */
+			$strategies = array_merge($strategies, $networkCustomOpenID);
+			ksort($strategies);
 			foreach ($strategies as $id => $info)
 			{
+				/* Being an array means it's a default strategy */
+				if (is_array($info))
+				{
+					$name = $info['name'];
+					$url = plugins_url("auth/$id", dirname(__FILE__));
+					$favicon = $id;
+				}
+				else
+				{
+					$name = $id;
+					$url = plugins_url('openidredirect.php?url=' . urlencode($info),
+							dirname(__FILE__));
+					$favicon = 'openid';
+				}
 				?>
 				<li class="wp-opauth-login-strategy">
-					<a href="<?php echo WP_PLUGIN_URL . "/wp-opauth/auth/$id"; ?>"><?php
+					<a href="<?php echo $url; ?>"><?php
 						if (file_exists(WPOPAUTH_PATH
 									. DIRECTORY_SEPARATOR . 'favicons'
-									. DIRECTORY_SEPARATOR . $id . '.png'))
+									. DIRECTORY_SEPARATOR . $favicon . '.png'))
 						{
-							echo '<img src="' . WP_PLUGIN_URL . "/wp-opauth/favicons/$id.png"
-								. '" alt=' . $id . '> ';
+							echo '<img src="'
+								. plugins_url("favicons/$favicon.png", dirname(__FILE__))
+								. '" alt=' . $name . '> ';
 						}
-						echo '<span>' . $info['name'] . '</span>';
+						echo '<span>' . $name . '</span>';
 					?></a>
 				</li>
 				<?php

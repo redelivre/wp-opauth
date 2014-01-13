@@ -66,6 +66,7 @@ class WPOpauth
 	public function loginForm()
 	{
 		$strategies = $this->opauth->strategyMap;
+		$networkCustomOpenID = $this->networkCustomOpenID;
 
 		if ($this->areButtonsOutside)
 		{
@@ -170,7 +171,7 @@ class WPOpauth
 		wp_redirect(get_home_url());
 	}
 
-	private static function redirectWithPost($url, $post)
+	public static function redirectWithPost($url, $post)
 	{
 		echo '<form action="' . htmlentities($url)
 			. '" method="post" name="redirect_form">';
