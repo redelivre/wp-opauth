@@ -19,7 +19,7 @@ class WPOpauth
 				array('OpenID' => array()));
 		$salt = get_site_option('wp-opauth-salt');
 		$this->areButtonsOutside =
-			get_site_option('wp-opauth-arebuttonsoutside', true);
+			get_site_option('wp-opauth-are-buttons-outside', true);
 		$this->networkCustomOpenID =
 			get_site_option('wp-opauth-network-custom-openid', array());
 		$this->localCustomOpenIDEnabled =
@@ -381,7 +381,7 @@ class WPOpauth
 		{
 			$this->saveNetworkSettings($_POST);
 			$values = get_site_option('wp-opauth-strategies');
-			$areButtonsOutside = get_site_option('wp-opauth-arebuttonsoutside');
+			$areButtonsOutside = get_site_option('wp-opauth-are-buttons-outside');
 			$customOpenID =
 				get_site_option('wp-opauth-network-custom-openid', array());
 			$localCustomOpenIDEnabled =
@@ -440,7 +440,7 @@ class WPOpauth
 
 		update_site_option('wp-opauth-network-custom-openid', $customOpenID);
 		update_site_option('wp-opauth-strategies', $strategies);
-		update_site_option('wp-opauth-arebuttonsoutside', $areButtonsOutside);
+		update_site_option('wp-opauth-are-buttons-outside', $areButtonsOutside);
 		update_site_option('wp-opauth-local-custom-openid-enabled',
 				$localCustomOpenIDEnabled);
 	}
