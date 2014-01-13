@@ -7,7 +7,8 @@ class WPOpauth
 					$areButtonsOutside,
 					$originalPath,
 					$networkCustomOpenID,
-					$siteCustomOpenIDEnabled;
+					$localCustomOpenIDEnabled,
+					$localCustomOpenID;
 
 	public function __construct($config = array())
 	{
@@ -21,8 +22,10 @@ class WPOpauth
 			get_site_option('wp-opauth-arebuttonsoutside', true);
 		$this->networkCustomOpenID =
 			get_site_option('wp-opauth-network-custom-openid', array());
-		$this->siteCustomOpenIDEnabled =
-			get_site_option('wp-opauth-site-custom-openid-enabled', true);
+		$this->localCustomOpenIDEnabled =
+			get_site_option('wp-opauth-local-custom-openid-enabled', true);
+		$this->localCustomOpenID=
+			get_option('wp-opauth-local-custom-openid', array());
 
 		if ($salt === false)
 		{
@@ -63,7 +66,8 @@ class WPOpauth
 			add_action('login_form', array($this, 'loginForm'));
 			add_action('init', array($this, 'init'));
 		}
-		add_action('network_admin_menu', array($this, 'adminMenu'));
+		add_action('network_admin_menu', array($this, 'networkAdminMenu'));
+		add_action('admin_menu', array($this, 'adminMenu'));
 	}
 
 	public function loginForm()
@@ -316,34 +320,36 @@ class WPOpauth
 		do_action('wp_login', $user->user_login);
 	}
 
-	public function adminMenu()
+	public function networkAdminMenu()
 	{
 		add_menu_page('Opauth Plugin Options',
 				'Opauth',
 				'manage_options',
 				'wp-opauth',
-				array($this, 'adminOptions'));
+				array($this, 'networkAdminOptions'));
+	}
+
+	public function adminMenu()
+	{
+		if ($this->localCustomOpenIDEnabled)
+		{
+			add_menu_page('Opauth Plugin Options',
+					'Opauth',
+					'manage_options',
+					'wp-opauth',
+					array($this, 'adminOptions'));
+		}
 	}
 
 	public function adminOptions()
 	{
-		$strategies = $this->originalStrategies;
-		$values = (isset($this->opauth)?
-				$this->opauth->config['Strategy'] : array());
-		$callbackURLs = $this->loadCallbackURLs();
-		$areButtonsOutside = $this->areButtonsOutside;
-		$customOpenID = $this->networkCustomOpenID;
-		$siteCustomOpenIDEnabled = $this->siteCustomOpenIDEnabled;
+		$customOpenID = $this->localCustomOpenID;
 
 		if (!empty($_POST))
 		{
-			$this->saveSettings($_POST);
-			$values = get_site_option('wp-opauth-strategies');
-			$areButtonsOutside = get_site_option('wp-opauth-arebuttonsoutside');
+			$this->saveLocalSettings($_POST);
 			$customOpenID =
-				get_site_option('wp-opauth-network-custom-openid', array());
-			$siteCustomOpenIDEnabled =
-				get_site_option('wp-opauth-site-custom-openid-enabled', true);
+				get_option('wp-opauth-local-custom-openid', array());
 		}
 
 		wp_enqueue_script('wp-opauth-custom-openid',
@@ -358,16 +364,48 @@ class WPOpauth
 			. DIRECTORY_SEPARATOR . 'admin_page.php';
 	}
 
-	public function saveSettings($candidate)
+	public function networkAdminOptions()
 	{
-		var_dump($candidate);
+		$strategies = $this->originalStrategies;
+		$values = (isset($this->opauth)?
+				$this->opauth->config['Strategy'] : array());
+		$callbackURLs = $this->loadCallbackURLs();
+		$areButtonsOutside = $this->areButtonsOutside;
+		$customOpenID = $this->networkCustomOpenID;
+		$localCustomOpenIDEnabled = $this->localCustomOpenIDEnabled;
+
+		if (!empty($_POST))
+		{
+			$this->saveNetworkSettings($_POST);
+			$values = get_site_option('wp-opauth-strategies');
+			$areButtonsOutside = get_site_option('wp-opauth-arebuttonsoutside');
+			$customOpenID =
+				get_site_option('wp-opauth-network-custom-openid', array());
+			$localCustomOpenIDEnabled =
+				get_site_option('wp-opauth-local-custom-openid-enabled', true);
+		}
+
+		wp_enqueue_script('wp-opauth-custom-openid',
+				plugins_url('js/customopenid.js', __FILE__));
+		wp_localize_script('wp-opauth-custom-openid', 'i10n',
+				array(
+					'defaultURL' => __("Login URL", 'wp-opauth'),
+					'remove' => __("Remove", 'wp-opauth')));
+
+		require WPOPAUTH_PATH
+			. DIRECTORY_SEPARATOR . 'views'
+			. DIRECTORY_SEPARATOR . 'network_admin_page.php';
+	}
+
+	public function saveNetworkSettings($candidate)
+	{
 		$strategies = array();
 		$customOpenID = array();
 		/* An empty string because add_site_option fails if the value is false */
 		$areButtonsOutside =
 			(array_key_exists('areButtonsOutside', $candidate)? true : '');
-		$siteCustomOpenIDEnabled =
-			(array_key_exists('siteCustomOpenIDEnabled', $candidate)? true : '');
+		$localCustomOpenIDEnabled =
+			(array_key_exists('localCustomOpenIDEnabled', $candidate)? true : '');
 
 		if (array_key_exists('customopenid', $candidate))
 		{
@@ -400,8 +438,23 @@ class WPOpauth
 		update_site_option('wp-opauth-network-custom-openid', $customOpenID);
 		update_site_option('wp-opauth-strategies', $strategies);
 		update_site_option('wp-opauth-arebuttonsoutside', $areButtonsOutside);
-		update_site_option('wp-opauth-site-custom-openid-enabled',
-				$siteCustomOpenIDEnabled);
+		update_site_option('wp-opauth-local-custom-openid-enabled',
+				$localCustomOpenIDEnabled);
+	}
+
+	public function saveLocalSettings($candidate)
+	{
+		$customOpenID = array();
+
+		if (array_key_exists('customopenid', $candidate))
+		{
+			foreach ($candidate['customopenid'] as $id => $url)
+			{
+				$customOpenID[$id] = (string) $url;
+			}
+		}
+
+		update_option('wp-opauth-local-custom-openid', $customOpenID);
 	}
 
 	public static function generateRandomSalt()
