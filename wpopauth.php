@@ -6,7 +6,8 @@ class WPOpauth
 					$originalStrategies,
 					$areButtonsOutside,
 					$originalPath,
-					$networkCustomOpenID;
+					$networkCustomOpenID,
+					$siteCustomOpenIDEnabled;
 
 	public function __construct($config = array())
 	{
@@ -20,6 +21,8 @@ class WPOpauth
 			get_site_option('wp-opauth-arebuttonsoutside', true);
 		$this->networkCustomOpenID =
 			get_site_option('wp-opauth-network-custom-openid', array());
+		$this->siteCustomOpenIDEnabled =
+			get_site_option('wp-opauth-site-custom-openid-enabled', true);
 
 		if ($salt === false)
 		{
@@ -330,6 +333,7 @@ class WPOpauth
 		$callbackURLs = $this->loadCallbackURLs();
 		$areButtonsOutside = $this->areButtonsOutside;
 		$customOpenID = $this->networkCustomOpenID;
+		$siteCustomOpenIDEnabled = $this->siteCustomOpenIDEnabled;
 
 		if (!empty($_POST))
 		{
@@ -338,6 +342,8 @@ class WPOpauth
 			$areButtonsOutside = get_site_option('wp-opauth-arebuttonsoutside');
 			$customOpenID =
 				get_site_option('wp-opauth-network-custom-openid', array());
+			$siteCustomOpenIDEnabled =
+				get_site_option('wp-opauth-site-custom-openid-enabled', true);
 		}
 
 		wp_enqueue_script('wp-opauth-custom-openid',
@@ -354,9 +360,14 @@ class WPOpauth
 
 	public function saveSettings($candidate)
 	{
+		var_dump($candidate);
 		$strategies = array();
 		$customOpenID = array();
-		$areButtonsOutside = array_key_exists('areButtonsOutside', $candidate);
+		/* An empty string because add_site_option fails if the value is false */
+		$areButtonsOutside =
+			(array_key_exists('areButtonsOutside', $candidate)? true : '');
+		$siteCustomOpenIDEnabled =
+			(array_key_exists('siteCustomOpenIDEnabled', $candidate)? true : '');
 
 		if (array_key_exists('customopenid', $candidate))
 		{
@@ -389,6 +400,8 @@ class WPOpauth
 		update_site_option('wp-opauth-network-custom-openid', $customOpenID);
 		update_site_option('wp-opauth-strategies', $strategies);
 		update_site_option('wp-opauth-arebuttonsoutside', $areButtonsOutside);
+		update_site_option('wp-opauth-site-custom-openid-enabled',
+				$siteCustomOpenIDEnabled);
 	}
 
 	public static function generateRandomSalt()
