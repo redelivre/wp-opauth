@@ -4,9 +4,9 @@
 	</h3>
 	<ul class="wp-opauth-login-strategies">
 		<?php
-			/* Network defined custom open id providers have priority over the
-			 * default strategies. */
+			/* Priorities are: local > network > default */
 			$strategies = array_merge($strategies, $networkCustomOpenID);
+			$strategies = array_merge($strategies, $localCustomOpenID);
 			ksort($strategies);
 			foreach ($strategies as $id => $info)
 			{

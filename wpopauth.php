@@ -74,6 +74,7 @@ class WPOpauth
 	{
 		$strategies = $this->opauth->strategyMap;
 		$networkCustomOpenID = $this->networkCustomOpenID;
+		$localCustomOpenID = $this->localCustomOpenID;
 
 		if ($this->areButtonsOutside)
 		{
