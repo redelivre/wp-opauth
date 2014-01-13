@@ -8,7 +8,7 @@
 		_e('Try placing the login buttons below the login form', 'wp-opauth');
 	?>
 	<br>
-	<input type="checkbox" name="siteCustomOpenIDEnabled"
+	<input type="checkbox" name="localCustomOpenIDEnabled"
 		<?php if ($localCustomOpenIDEnabled) echo 'checked="yes"'; ?> >
 	<?php
 		_e('Allow individual sites to specify custom openid providers', 'wp-opauth');
