@@ -73,8 +73,10 @@ class WPOpauth
 	public function loginForm()
 	{
 		$strategies = $this->opauth->strategyMap;
-		$networkCustomOpenID = $this->networkCustomOpenID;
-		$localCustomOpenID = $this->localCustomOpenID;
+		$networkCustomOpenID = (array_key_exists('openid', $strategies)?
+				$this->networkCustomOpenID : array());
+		$localCustomOpenID = (array_key_exists('openid', $strategies)?
+				$this->localCustomOpenID : array());
 
 		if ($this->areButtonsOutside)
 		{
