@@ -1,15 +1,21 @@
 <div id="wp-opauth-custom-openid-list">
+	<i><?php _e('Icons are 16x16 png files', 'wp-opauth'); ?></i>
 	<?php
-		foreach ($customOpenID as $id => $url)
+		foreach ($customOpenID as $id => $info)
 		{
+			$hid = htmlspecialchars($id);
+			$iconURL = htmlspecialchars(site_url($info['icon']));
 		?>
 			<div class="wp-opauth-custom-openid-item">
-			<span><?php echo htmlspecialchars($id); ?></span>
-			<input type="text" size="32"
-				value="<?php echo htmlspecialchars($url); ?>"
-				name="customopenid[<?php echo htmlspecialchars($id); ?>]">
-			<input type="Button"
-				value="<?php _e('Remove', 'wp-opauth'); ?>">
+				<img src="<?php echo $iconURL; ?>"
+					alt="<?php echo htmlspecialchars($id); ?>">
+				<span><?php echo $hid; ?></span>
+				<input type="text" size="32"
+					value="<?php echo htmlspecialchars($info['url']); ?>"
+					name="customopenid[<?php echo $hid; ?>][url]">
+				<input type="file" name="customopenid[<?php echo $hid; ?>][icon]">
+				<input type="Button"
+					value="<?php _e('Remove', 'wp-opauth'); ?>">
 			</div>
 		<?php
 		}

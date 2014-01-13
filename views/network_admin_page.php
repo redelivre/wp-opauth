@@ -1,6 +1,6 @@
 <h1><?php _e('Opauth', 'wp-opauth'); ?></h1>
 
-<form id="opauth-config" method="post">
+<form id="opauth-config" method="post" enctype="multipart/form-data">
 	<h2><?php _e('General Options', 'wp-opauth'); ?></h2>
 	<input type="checkbox" name="areButtonsOutside"
 		<?php if ($areButtonsOutside) echo 'checked="yes"'; ?> >

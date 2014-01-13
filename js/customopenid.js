@@ -3,16 +3,28 @@ function addCustomOpenID()
 	var input = jQuery('#wp-opauth-custom-openid-id');
 	var list = jQuery('#wp-opauth-custom-openid-list');
 	var id = input.val();
-	var inputName = 'customopenid[' + id + ']';
+	var urlName = 'customopenid[' + id + '][url]';
+	var iconName = 'customopenid[' + id + '][icon]';
 
-	if (id && !jQuery('input[name="' + inputName + '"]').length)
+	if (id && !jQuery('input[name="' + urlName + '"]').length)
 	{
 		var div = jQuery(
 				'<div class="wp-opauth-custom-openid-item"></div>').appendTo(list);
+
+		var img = jQuery('<img>').appendTo(div);
+		img.attr('src', i10n['defaultIconURL']);
+		img.attr('alt', id);
+		img.after(' ');
+
 		jQuery('<span></span>').appendTo(div).text(id + ': ');
+
 		var url = jQuery('<input type="text" size="32">').appendTo(div);
 		url.val(i10n['defaultURL']);
-		url.attr('name', inputName);
+		url.attr('name', urlName);
+
+		var icon = jQuery('<input type="file">').appendTo(div);
+		icon.attr('name', iconName);
+
 		var remove = jQuery('<input type="button">').appendTo(div);
 		remove.val(i10n['remove']);
 		remove.click(function()

@@ -10,31 +10,24 @@
 			ksort($strategies);
 			foreach ($strategies as $id => $info)
 			{
-				/* Being an array means it's a default strategy */
-				if (is_array($info))
+				/* icon is only set it's a custom openid provider */
+				if (!array_key_exists('icon', $info))
 				{
 					$name = $info['name'];
 					$url = plugins_url("auth/$id", dirname(__FILE__));
-					$favicon = $id;
+					$icon = plugins_url("favicons/$id.png", dirname(__FILE__));
 				}
 				else
 				{
 					$name = $id;
-					$url = plugins_url('openidredirect.php?url=' . urlencode($info),
+					$url = plugins_url('openidredirect.php?url=' . urlencode($info['url']),
 							dirname(__FILE__));
-					$favicon = 'openid';
+					$icon = site_url($info['icon']);
 				}
 				?>
 				<li class="wp-opauth-login-strategy">
 					<a href="<?php echo $url; ?>"><?php
-						if (file_exists(WPOPAUTH_PATH
-									. DIRECTORY_SEPARATOR . 'favicons'
-									. DIRECTORY_SEPARATOR . $favicon . '.png'))
-						{
-							echo '<img src="'
-								. plugins_url("favicons/$favicon.png", dirname(__FILE__))
-								. '" alt=' . $name . '> ';
-						}
+						echo '<img src="' . $icon . '" alt=' . $name . '> ';
 						echo '<span>' . $name . '</span>';
 					?></a>
 				</li>

@@ -133,7 +133,8 @@ class WPOpauth
 			$strategy = ($pos === false? $params[0] : substr($params[0], 0, $pos));
 			if ($strategy !== 'openid')
 			{
-				$this->opauth->env['host'] = preg_replace('/\/$/', '', network_site_url());
+				$this->opauth->env['host'] = preg_replace('/\/$/', '',
+						network_site_url());
 			}
 
 			$this->opauth->run();
@@ -360,6 +361,7 @@ class WPOpauth
 		wp_localize_script('wp-opauth-custom-openid', 'i10n',
 				array(
 					'defaultURL' => __("Login URL", 'wp-opauth'),
+					'defaultIconURL' => plugins_url('favicons/openid.png', __FILE__),
 					'remove' => __("Remove", 'wp-opauth')));
 
 		require WPOPAUTH_PATH
@@ -393,6 +395,7 @@ class WPOpauth
 		wp_localize_script('wp-opauth-custom-openid', 'i10n',
 				array(
 					'defaultURL' => __("Login URL", 'wp-opauth'),
+					'defaultIconURL' => plugins_url('favicons/openid.png', __FILE__),
 					'remove' => __("Remove", 'wp-opauth')));
 
 		require WPOPAUTH_PATH
@@ -409,12 +412,34 @@ class WPOpauth
 			(array_key_exists('areButtonsOutside', $candidate)? true : '');
 		$localCustomOpenIDEnabled =
 			(array_key_exists('localCustomOpenIDEnabled', $candidate)? true : '');
+		$uploadDir = wp_upload_dir();
+		$baseUploadDir = $uploadDir['basedir'] . DIRECTORY_SEPARATOR . 'wp-opauth';
+		$baseUploadURL = $uploadDir['baseurl'] . '/wp-opauth';
+
+		self::checkAndCreateDir($baseUploadDir, 0755);
 
 		if (array_key_exists('customopenid', $candidate))
 		{
-			foreach ($candidate['customopenid'] as $id => $url)
+			foreach ($candidate['customopenid'] as $id => $info)
 			{
-				$customOpenID[$id] = (string) $url;
+				$customOpenID[$id]['url'] = (string) $info['url'];
+				if (self::validateUploadedIcon('customopenid', $id))
+				{
+					$filePath = $baseUploadDir . DIRECTORY_SEPARATOR
+						. sanitize_file_name("$id.png");
+					move_uploaded_file($_FILES['customopenid']['tmp_name'][$id]['icon'],
+							$filePath);
+					$fileURL = $baseUploadURL . '/' . sanitize_file_name("$id.png");
+					$customOpenID[$id]['icon'] = substr($fileURL, strlen(site_url()));
+				}
+				else
+				{
+					$customOpenID[$id]['icon'] =
+						(array_key_exists($id, $this->networkCustomOpenID)?
+							$this->networkCustomOpenID[$id]['icon'] :
+							substr(plugins_url('favicons/openid.png', __FILE__),
+								strlen(site_url())));
+				}
 			}
 		}
 		if (array_key_exists('strategies', $candidate))
@@ -448,12 +473,34 @@ class WPOpauth
 	public function saveLocalSettings($candidate)
 	{
 		$customOpenID = array();
+		$uploadDir = wp_upload_dir();
+		$baseUploadDir = $uploadDir['basedir'] . DIRECTORY_SEPARATOR . 'wp-opauth';
+		$baseUploadURL = $uploadDir['baseurl'] . '/wp-opauth';
+
+		self::checkAndCreateDir($baseUploadDir, 0755);
 
 		if (array_key_exists('customopenid', $candidate))
 		{
-			foreach ($candidate['customopenid'] as $id => $url)
+			foreach ($candidate['customopenid'] as $id => $info)
 			{
-				$customOpenID[$id] = (string) $url;
+				$customOpenID[$id]['url'] = (string) $info['url'];
+				if (self::validateUploadedIcon('customopenid', $id))
+				{
+					$filePath = $baseUploadDir . DIRECTORY_SEPARATOR
+						. sanitize_file_name("$id.png");
+					move_uploaded_file($_FILES['customopenid']['tmp_name'][$id]['icon'],
+							$filePath);
+					$fileURL = $baseUploadURL . '/' . sanitize_file_name("$id.png");
+					$customOpenID[$id]['icon'] = substr($fileURL, strlen(site_url()));
+				}
+				else
+				{
+					$customOpenID[$id]['icon'] =
+						(array_key_exists($id, $this->localCustomOpenID)?
+							$this->localCustomOpenID[$id]['icon'] :
+							substr(plugins_url('favicons/openid.png', __FILE__),
+								strlen(site_url())));
+				}
 			}
 		}
 
@@ -488,6 +535,46 @@ class WPOpauth
 		}
 
 		return $callbackURLs;
+	}
+
+	private static function validateUploadedIcon($key, $name)
+	{
+		if (!array_key_exists($key, $_FILES))
+		{
+			return false;
+		}
+
+		/* Check for errors and error corruption attacks */
+		if (!array_key_exists('error', $_FILES[$key])
+				|| !array_key_exists($name, $_FILES[$key]['error'])
+				|| !array_key_exists('icon', $_FILES[$key]['error'][$name])
+				|| $_FILES[$key]['error'][$name]['icon'] !== UPLOAD_ERR_OK)
+		{
+			return false;
+		}
+
+		/* 128 kilobytes should be enough for tiny 16x16 icons */
+		if ($_FILES[$key]['size'][$name]['icon'] > (1 << 17))
+		{
+			return false;
+		}
+
+		/* Only png files */
+		if (exif_imagetype($_FILES[$key]['tmp_name'][$name]['icon'])
+				!== IMAGETYPE_PNG)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	private static function checkAndCreateDir($path, $permissions)
+	{
+		if (!file_exists($path) && !is_dir($path))
+		{
+			mkdir($path, $permissions, true);
+		}
 	}
 }
 
