@@ -15,7 +15,10 @@
 				{
 					$name = $info['name'];
 					$url = plugins_url("auth/$id", dirname(__FILE__));
-					$icon = plugins_url("favicons/$id.png", dirname(__FILE__));
+					$icon = (file_exists(WPOPAUTH_PATH . DIRECTORY_SEPARATOR
+								. 'favicons' . DIRECTORY_SEPARATOR . "$id.png")?
+							plugins_url("favicons/$id.png", dirname(__FILE__)) :
+							'');
 				}
 				else
 				{
@@ -27,7 +30,10 @@
 				?>
 				<li class="wp-opauth-login-strategy">
 					<a href="<?php echo $url; ?>"><?php
-						echo '<img src="' . $icon . '" alt=' . $name . '> ';
+						if ($icon)
+						{
+							echo '<img src="' . $icon . '" alt=' . $name . '> ';
+						}
 						echo '<span>' . $name . '</span>';
 					?></a>
 				</li>
