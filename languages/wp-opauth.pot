@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-13 23:34:28+00:00\n"
+"POT-Creation-Date: 2014-01-14 17:06:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,27 +18,27 @@ msgstr ""
 msgid "Opauth"
 msgstr ""
 
-#: views/admin_page.php:4 views/network_admin_page.php:16
+#: views/admin_page.php:15 views/network_admin_page.php:27
 msgid "Custom openid providers"
 msgstr ""
 
-#: views/admin_page.php:6
+#: views/admin_page.php:17
 msgid "Requires the openid strategy to be enabled in the network"
 msgstr ""
 
-#: views/admin_page.php:15 views/network_admin_page.php:66
+#: views/admin_page.php:26 views/network_admin_page.php:77
 msgid "Store Settings"
 msgstr ""
 
 #: views/custom_openid.php:3
-msgid "Icons are 16x16 png files up to 128 kilobytes"
+msgid "Icons are 16x16 png files up to %d bytes"
 msgstr ""
 
-#: views/custom_openid.php:20 wpopauth.php:365 wpopauth.php:399
+#: views/custom_openid.php:22 wpopauth.php:368 wpopauth.php:405
 msgid "Remove"
 msgstr ""
 
-#: views/custom_openid.php:29
+#: views/custom_openid.php:31
 msgid "Add"
 msgstr ""
 
@@ -46,43 +46,43 @@ msgstr ""
 msgid "Or login using:"
 msgstr ""
 
-#: views/network_admin_page.php:4
+#: views/network_admin_page.php:15
 msgid "General Options"
 msgstr ""
 
-#: views/network_admin_page.php:8
+#: views/network_admin_page.php:19
 msgid "Try placing the login buttons below the login form"
 msgstr ""
 
-#: views/network_admin_page.php:14
+#: views/network_admin_page.php:25
 msgid "Allow individual sites to specify custom openid providers"
 msgstr ""
 
-#: views/network_admin_page.php:18
+#: views/network_admin_page.php:29
 msgid "Requires the openid strategy to be enabled"
 msgstr ""
 
-#: views/network_admin_page.php:24
+#: views/network_admin_page.php:35
 msgid "Strategies"
 msgstr ""
 
-#: views/network_admin_page.php:38
+#: views/network_admin_page.php:49
 msgid "Enabled"
 msgstr ""
 
-#: views/network_admin_page.php:60
+#: views/network_admin_page.php:71
 msgid "Return URL"
 msgstr ""
 
-#: wp-opauth.php:30
+#: wp-opauth.php:34
 msgid "The Opauth class file was not found."
 msgstr ""
 
-#: wp-opauth.php:31
+#: wp-opauth.php:35
 msgid "Did you download the submodules?"
 msgstr ""
 
-#: wp-opauth.php:32
+#: wp-opauth.php:36
 msgid "Read the README file for more information"
 msgstr ""
 
@@ -90,8 +90,16 @@ msgstr ""
 msgid "Anonymous"
 msgstr ""
 
-#: wpopauth.php:363 wpopauth.php:397
+#: wpopauth.php:366 wpopauth.php:403
 msgid "Login URL"
+msgstr ""
+
+#: wpopauth.php:587
+msgid "The uploaded file is larger than %d bytes."
+msgstr ""
+
+#: wpopauth.php:597
+msgid "The uploaded file is not a valid png file."
 msgstr ""
 
 #. Plugin URI of the plugin/theme
