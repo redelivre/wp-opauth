@@ -347,6 +347,7 @@ class WPOpauth
 
 	public function adminOptions()
 	{
+		global $errors;
 		$customOpenID = $this->localCustomOpenID;
 
 		if (!empty($_POST))
@@ -356,6 +357,8 @@ class WPOpauth
 				get_option('wp-opauth-local-custom-openid', array());
 		}
 
+		wp_enqueue_style('wp-opauth-admin',
+				plugins_url('css/admin.css', __FILE__));
 		wp_enqueue_script('wp-opauth-custom-openid',
 				plugins_url('js/customopenid.js', __FILE__));
 		wp_localize_script('wp-opauth-custom-openid', 'i10n',
@@ -371,6 +374,7 @@ class WPOpauth
 
 	public function networkAdminOptions()
 	{
+		global $errors;
 		$strategies = $this->originalStrategies;
 		$values = (isset($this->opauth)?
 				$this->opauth->config['Strategy'] : array());
@@ -390,6 +394,8 @@ class WPOpauth
 				get_site_option('wp-opauth-local-custom-openid-enabled', true);
 		}
 
+		wp_enqueue_style('wp-opauth-admin',
+				plugins_url('css/admin.css', __FILE__));
 		wp_enqueue_script('wp-opauth-custom-openid',
 				plugins_url('js/customopenid.js', __FILE__));
 		wp_localize_script('wp-opauth-custom-openid', 'i10n',
@@ -559,6 +565,8 @@ class WPOpauth
 
 	private static function validateUploadedIcon($key, $name)
 	{
+		global $errors;
+
 		if (!array_key_exists($key, $_FILES))
 		{
 			return false;
@@ -573,9 +581,12 @@ class WPOpauth
 			return false;
 		}
 
-		/* 128 kilobytes should be enough for tiny 16x16 icons */
-		if ($_FILES[$key]['size'][$name]['icon'] > (1 << 17))
+		/* Make sure the file is not too big */
+		if ($_FILES[$key]['size'][$name]['icon'] > MAXIMUM_ICON_SIZE)
 		{
+			$errors .= sprintf(__('The uploaded file is larger than %d bytes.',
+						'wp-opauth'), MAXIMUM_ICON_SIZE);
+
 			return false;
 		}
 
@@ -583,6 +594,8 @@ class WPOpauth
 		if (exif_imagetype($_FILES[$key]['tmp_name'][$name]['icon'])
 				!== IMAGETYPE_PNG)
 		{
+			$errors .= __('The uploaded file is not a valid png file.', 'wp-opauth');
+
 			return false;
 		}
 

@@ -1,6 +1,7 @@
 <div id="wp-opauth-custom-openid-list">
 	<i><?php
-		_e('Icons are 16x16 png files up to 128 kilobytes', 'wp-opauth');
+		printf(__('Icons are 16x16 png files up to %d bytes', 'wp-opauth'),
+				MAXIMUM_ICON_SIZE);
 	?></i>
 	<?php
 		foreach ($customOpenID as $id => $info)

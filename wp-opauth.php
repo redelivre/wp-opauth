@@ -22,6 +22,8 @@ define('WPOPAUTH_USER_TABLE_NAME', 'wpopauth_users');
 define('OPAUTH_CLASS_FILE', OPAUTH_PATH . DIRECTORY_SEPARATOR . 'Opauth.php');
 define('DEFAULT_OPENID_ICON',
 		substr(plugins_url('favicons/openid.png', __FILE__), strlen(site_url())));
+/* 4 kilobytes should be enough for tiny 16x16 icons */
+define('MAXIMUM_ICON_SIZE', 1 << 12);
 
 /* This is not the best place for loading the translations. But we need for the
  * error message below. */

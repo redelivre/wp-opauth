@@ -1,5 +1,16 @@
 <h1><?php _e('Opauth', 'wp-opauth'); ?></h1>
 
+<?php
+	if (!empty($errors))
+	{
+		?>
+		<p class="wp-opauth-error-message">
+			<?php echo $errors; ?>
+		</p>
+		<?php
+	}
+?>
+
 <form id="opauth-config" method="post" enctype="multipart/form-data">
 	<h2><?php _e('Custom openid providers', 'wp-opauth'); ?></h2>
 	<p><i><?php
