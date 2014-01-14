@@ -361,7 +361,7 @@ class WPOpauth
 				plugins_url('css/admin.css', __FILE__));
 		wp_enqueue_script('wp-opauth-custom-openid',
 				plugins_url('js/customopenid.js', __FILE__));
-		wp_localize_script('wp-opauth-custom-openid', 'i10n',
+		wp_localize_script('wp-opauth-custom-openid', 'i18n',
 				array(
 					'defaultURL' => __("Login URL", 'wp-opauth'),
 					'defaultIconURL' => site_url(DEFAULT_OPENID_ICON),
@@ -398,7 +398,7 @@ class WPOpauth
 				plugins_url('css/admin.css', __FILE__));
 		wp_enqueue_script('wp-opauth-custom-openid',
 				plugins_url('js/customopenid.js', __FILE__));
-		wp_localize_script('wp-opauth-custom-openid', 'i10n',
+		wp_localize_script('wp-opauth-custom-openid', 'i18n',
 				array(
 					'defaultURL' => __("Login URL", 'wp-opauth'),
 					'defaultIconURL' => site_url(DEFAULT_OPENID_ICON),

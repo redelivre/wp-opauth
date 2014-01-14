@@ -12,7 +12,7 @@ function addCustomOpenID()
 				'<div class="wp-opauth-custom-openid-item"></div>').appendTo(list);
 
 		var img = jQuery('<img>').appendTo(div);
-		img.attr('src', i10n['defaultIconURL']);
+		img.attr('src', i18n['defaultIconURL']);
 		img.attr('alt', id);
 		img.attr('width', 16);
 		img.attr('height', 16);
@@ -21,14 +21,14 @@ function addCustomOpenID()
 		jQuery('<span></span>').appendTo(div).text(id + ': ');
 
 		var url = jQuery('<input type="text" size="32">').appendTo(div);
-		url.val(i10n['defaultURL']);
+		url.val(i18n['defaultURL']);
 		url.attr('name', urlName);
 
 		var icon = jQuery('<input type="file">').appendTo(div);
 		icon.attr('name', iconName);
 
 		var remove = jQuery('<input type="button">').appendTo(div);
-		remove.val(i10n['remove']);
+		remove.val(i18n['remove']);
 		remove.click(function()
 		{
 			jQuery(this).parent().remove();
