@@ -10,7 +10,7 @@
 						DEFAULT_OPENID_ICON : $info['icon']));
 		?>
 			<div class="wp-opauth-custom-openid-item">
-				<img src="<?php echo $iconURL; ?>"
+				<img width="16" height="16" src="<?php echo $iconURL; ?>"
 					alt="<?php echo htmlspecialchars($id); ?>">
 				<span><?php echo $hid; ?></span>
 				<input type="text" size="32"

@@ -14,6 +14,8 @@ function addCustomOpenID()
 		var img = jQuery('<img>').appendTo(div);
 		img.attr('src', i10n['defaultIconURL']);
 		img.attr('alt', id);
+		img.attr('width', 16);
+		img.attr('height', 16);
 		img.after(' ');
 
 		jQuery('<span></span>').appendTo(div).text(id + ': ');

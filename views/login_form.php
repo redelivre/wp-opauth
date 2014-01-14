@@ -33,7 +33,8 @@
 					<a href="<?php echo $url; ?>"><?php
 						if ($icon)
 						{
-							echo '<img src="' . $icon . '" alt=' . $name . '> ';
+							echo '<img width="16" height="16" src="'
+								. $icon . '" alt=' . $name . '> ';
 						}
 						echo '<span>' . $name . '</span>';
 					?></a>
