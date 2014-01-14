@@ -361,7 +361,7 @@ class WPOpauth
 		wp_localize_script('wp-opauth-custom-openid', 'i10n',
 				array(
 					'defaultURL' => __("Login URL", 'wp-opauth'),
-					'defaultIconURL' => plugins_url('favicons/openid.png', __FILE__),
+					'defaultIconURL' => site_url(DEFAULT_OPENID_ICON),
 					'remove' => __("Remove", 'wp-opauth')));
 
 		require WPOPAUTH_PATH
@@ -395,7 +395,7 @@ class WPOpauth
 		wp_localize_script('wp-opauth-custom-openid', 'i10n',
 				array(
 					'defaultURL' => __("Login URL", 'wp-opauth'),
-					'defaultIconURL' => plugins_url('favicons/openid.png', __FILE__),
+					'defaultIconURL' => site_url(DEFAULT_OPENID_ICON),
 					'remove' => __("Remove", 'wp-opauth')));
 
 		require WPOPAUTH_PATH
@@ -437,8 +437,7 @@ class WPOpauth
 					$customOpenID[$id]['icon'] =
 						(array_key_exists($id, $this->networkCustomOpenID)?
 							$this->networkCustomOpenID[$id]['icon'] :
-							substr(plugins_url('favicons/openid.png', __FILE__),
-								strlen(site_url())));
+							null);
 				}
 			}
 		}
@@ -460,6 +459,17 @@ class WPOpauth
 						}
 					}
 				}
+			}
+		}
+
+		/* Delete the old icons */
+		$oldIcons = array_diff_key($this->networkCustomOpenID, $customOpenID);
+		foreach ($oldIcons as $info)
+		{
+			if ($info['icon'] !== null)
+			{
+				$filename = end(explode('/', $info['icon']));
+				unlink($baseUploadDir . DIRECTORY_SEPARATOR . $filename);
 			}
 		}
 
@@ -498,9 +508,19 @@ class WPOpauth
 					$customOpenID[$id]['icon'] =
 						(array_key_exists($id, $this->localCustomOpenID)?
 							$this->localCustomOpenID[$id]['icon'] :
-							substr(plugins_url('favicons/openid.png', __FILE__),
-								strlen(site_url())));
+							null);
 				}
+			}
+		}
+
+		/* Delete the old icons */
+		$oldIcons = array_diff_key($this->localCustomOpenID, $customOpenID);
+		foreach ($oldIcons as $info)
+		{
+			if ($info['icon'] !== null)
+			{
+				$filename = end(explode('/', $info['icon']));
+				unlink($baseUploadDir . DIRECTORY_SEPARATOR . $filename);
 			}
 		}
 

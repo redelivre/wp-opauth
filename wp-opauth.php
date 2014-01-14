@@ -20,6 +20,8 @@ define('OPAUTH_PATH',
 define('WPOPAUTH_PATH', dirname(__FILE__));
 define('WPOPAUTH_USER_TABLE_NAME', 'wpopauth_users');
 define('OPAUTH_CLASS_FILE', OPAUTH_PATH . DIRECTORY_SEPARATOR . 'Opauth.php');
+define('DEFAULT_OPENID_ICON',
+		substr(plugins_url('favicons/openid.png', __FILE__), strlen(site_url())));
 
 /* This is not the best place for loading the translations. But we need for the
  * error message below. */

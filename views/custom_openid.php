@@ -6,7 +6,8 @@
 		foreach ($customOpenID as $id => $info)
 		{
 			$hid = htmlspecialchars($id);
-			$iconURL = htmlspecialchars(site_url($info['icon']));
+			$iconURL = htmlspecialchars(site_url($info['icon'] === null?
+						DEFAULT_OPENID_ICON : $info['icon']));
 		?>
 			<div class="wp-opauth-custom-openid-item">
 				<img src="<?php echo $iconURL; ?>"
