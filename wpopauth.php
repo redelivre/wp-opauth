@@ -25,8 +25,10 @@ class WPOpauth
 			get_site_option('wp-opauth-network-custom-openid', array());
 		$this->localCustomOpenIDEnabled =
 			get_site_option('wp-opauth-local-custom-openid-enabled', true);
-		$this->localCustomOpenID=
-			get_option('wp-opauth-local-custom-openid', array());
+		$this->localCustomOpenID =
+			($this->localCustomOpenIDEnabled?
+			 get_option('wp-opauth-local-custom-openid', array()) :
+			 array());
 		$this->emailNewAccounts =
 			get_site_option('wp-opauth-email-new-accounts', true);
 
