@@ -24,6 +24,12 @@
 	<?php
 		_e('Allow individual sites to specify custom openid providers', 'wp-opauth');
 	?>
+	<br>
+	<input type="checkbox" name="emailNewAccounts"
+		<?php if ($emailNewAccounts) echo 'checked="yes"'; ?> >
+	<?php
+		_e('Email new users their username and password', 'wp-opauth');
+	?>
 	<h3><?php _e('Custom openid providers', 'wp-opauth'); ?></h3>
 	<p><i><?php
 		_e('Requires the openid strategy to be enabled', 'wp-opauth');

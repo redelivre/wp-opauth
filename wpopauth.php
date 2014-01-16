@@ -8,7 +8,8 @@ class WPOpauth
 					$originalPath,
 					$networkCustomOpenID,
 					$localCustomOpenIDEnabled,
-					$localCustomOpenID;
+					$localCustomOpenID,
+					$emailNewAccounts;
 
 	public function __construct($config = array())
 	{
@@ -26,6 +27,8 @@ class WPOpauth
 			get_site_option('wp-opauth-local-custom-openid-enabled', true);
 		$this->localCustomOpenID=
 			get_option('wp-opauth-local-custom-openid', array());
+		$this->emailNewAccounts =
+			get_site_option('wp-opauth-email-new-accounts', true);
 
 		if ($salt === false)
 		{
@@ -167,7 +170,7 @@ class WPOpauth
 		/* Check if the user was deleted */
 		if ($uid === null || get_userdata($uid) === false)
 		{
-			$uid = self::createUser($response);
+			$uid = $this->createUser($response);
 		}
 
 		if (is_wp_error($uid))
@@ -226,7 +229,7 @@ class WPOpauth
 		return ($name? $name : __('Anonymous', 'wp-opauth'));
 	}
 
-	private static function createUser($response)
+	private function createUser($response)
 	{
 		global $wpdb;
 
@@ -261,7 +264,10 @@ class WPOpauth
 			return $uid;
 		}
 
-		self::emailUserInformation($user);
+		if ($this->emailNewAccounts)
+		{
+			self::emailUserInformation($user);
+		}
 
 		$wpdb->insert($table,
 				array(
@@ -388,16 +394,20 @@ class WPOpauth
 		$areButtonsOutside = $this->areButtonsOutside;
 		$customOpenID = $this->networkCustomOpenID;
 		$localCustomOpenIDEnabled = $this->localCustomOpenIDEnabled;
+		$emailNewAccounts = $this->emailNewAccounts;
 
 		if (!empty($_POST))
 		{
 			$this->saveNetworkSettings($_POST);
 			$values = get_site_option('wp-opauth-strategies');
-			$areButtonsOutside = get_site_option('wp-opauth-are-buttons-outside');
+			$areButtonsOutside =
+				get_site_option('wp-opauth-are-buttons-outside', true);
 			$customOpenID =
 				get_site_option('wp-opauth-network-custom-openid', array());
 			$localCustomOpenIDEnabled =
 				get_site_option('wp-opauth-local-custom-openid-enabled', true);
+			$emailNewAccounts =
+				get_site_option('wp-opauth-email-new-accounts', true);
 		}
 
 		wp_enqueue_style('wp-opauth-admin',
@@ -424,6 +434,8 @@ class WPOpauth
 			(array_key_exists('areButtonsOutside', $candidate)? true : '');
 		$localCustomOpenIDEnabled =
 			(array_key_exists('localCustomOpenIDEnabled', $candidate)? true : '');
+		$emailNewAccounts =
+			(array_key_exists('emailNewAccounts', $candidate)? true : '');
 		$uploadDir = wp_upload_dir();
 		$baseUploadDir = $uploadDir['basedir'] . DIRECTORY_SEPARATOR . 'wp-opauth';
 		$baseUploadURL = $uploadDir['baseurl'] . '/wp-opauth';
@@ -490,6 +502,7 @@ class WPOpauth
 		update_site_option('wp-opauth-are-buttons-outside', $areButtonsOutside);
 		update_site_option('wp-opauth-local-custom-openid-enabled',
 				$localCustomOpenIDEnabled);
+		update_site_option('wp-opauth-email-new-accounts', $emailNewAccounts);
 	}
 
 	public function saveLocalSettings($candidate)
