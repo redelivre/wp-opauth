@@ -261,6 +261,8 @@ class WPOpauth
 			return $uid;
 		}
 
+		self::emailUserInformation($user);
+
 		$wpdb->insert($table,
 				array(
 					'provider' => $response['auth']['provider'],
@@ -612,6 +614,26 @@ class WPOpauth
 		{
 			mkdir($path, $permissions, true);
 		}
+	}
+
+	private static function emailUserInformation($user)
+	{
+		$message = '<p>';
+		$message .= sprintf(__('Hello %s,', 'wp-opauth'), $user['first_name']);
+		$message .= '</p>';
+		$message .= '<p>';
+		$message .=__('Your wordpress account was created.', 'wp-opauth');
+		$message .= '</p>';
+		$message .= '<p>';
+		$message .= __('Username:', 'wp-opauth') . ' ' .  $user['user_login'];
+		$message .= '</p>';
+		$message .= '<p>';
+		$message .= __('Password:', 'wp-opauth') . ' ' .  $user['user_pass'];
+		$message .= '</p>';
+
+		wp_mail($user['user_email'],
+				__('Wordpress Account Creation', 'wp-opauth'),
+				$message);
 	}
 }
 
