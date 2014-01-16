@@ -29,7 +29,7 @@ class WPOpauth
 
 		if ($salt === false)
 		{
-			$salt = self::generateRandomSalt();
+			$salt = self::generateRandomSalt(64, 128);
 			add_site_option('wp-opauth-salt', $salt);
 		}
 
@@ -245,7 +245,7 @@ class WPOpauth
 		$user = array();
 		$user['user_login'] = $username;
 		$user['first_name'] = $name;
-		$user['user_pass'] = $response['signature'];
+		$user['user_pass'] = self::generateRandomSalt(12, 16);
 		/* The email has to be set. Otherwise users get incoherent error
 		 * messages when trying to update their profile. */
 		$user['user_email'] =
@@ -537,12 +537,12 @@ class WPOpauth
 		update_option('wp-opauth-local-custom-openid', $customOpenID);
 	}
 
-	public static function generateRandomSalt()
+	public static function generateRandomSalt($min, $max)
 	{
 		$alphabet = 'abcdefghijklmnopqrstuvwxyz';
 		$alphabet .= 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$alphabet .= '0123456789';
-		$length = mt_rand(64, 128);
+		$length = mt_rand($min, $max);
 		$salt = '';
 
 		while ($length--) {
