@@ -3,6 +3,10 @@
 		printf(__('Icons are 16x16 png files up to %d bytes', 'wp-opauth'),
 				MAXIMUM_ICON_SIZE);
 	?></i>
+	<br>
+	<i><?php printf(__('To add variables, place %% around them (ie: %s)',
+				'wp-opauth'), 'http://%Username%.wordpress.com');
+	?></i>
 	<?php
 		foreach ($customOpenID as $id => $info)
 		{

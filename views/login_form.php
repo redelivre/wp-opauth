@@ -23,7 +23,8 @@
 				else
 				{
 					$name = $id;
-					$url = plugins_url('openidredirect.php?url=' . urlencode($info['url']),
+					$url = plugins_url('openidredirect.php?url=' .
+							urlencode($info['url']) . '&name=' . urlencode($name),
 							dirname(__FILE__));
 					$icon = site_url($info['icon'] === null?
 							DEFAULT_OPENID_ICON : $info['icon']);
