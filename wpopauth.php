@@ -164,7 +164,8 @@ class WPOpauth
 
 		$uid = self::getUserID($response);
 
-		if ($uid === null)
+		/* Check if the user was deleted */
+		if ($uid === null || get_userdata($uid) === false)
 		{
 			$uid = self::createUser($response);
 		}
