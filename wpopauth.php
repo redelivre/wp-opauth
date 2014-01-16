@@ -249,8 +249,10 @@ class WPOpauth
 		/* The email has to be set. Otherwise users get incoherent error
 		 * messages when trying to update their profile. */
 		$user['user_email'] =
-			(array_key_exists('email', $response['auth']['info'])?
-			 $response['auth']['info']['email'] : WPOPAUTH_INVALID_EMAIL);
+			(array_key_exists('email', $response['auth']['info'])
+			 && $response['auth']['info']['email']?
+			 $response['auth']['info']['email'] :
+			 WPOPAUTH_INVALID_EMAIL . $username);
 
 		$uid = wp_insert_user($user);
 
