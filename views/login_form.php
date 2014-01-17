@@ -1,8 +1,3 @@
-<?php
-	/* Priorities are: local > network > default */
-	$strategies = array_merge($strategies, $networkCustomOpenID);
-	$strategies = array_merge($strategies, $localCustomOpenID);
-?>
 <div id="wp-opauth-login">
 	<h3 class="wp-opauth-login-title">
 		<?php _e('Or login using:', 'wp-opauth'); ?>

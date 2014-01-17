@@ -10,7 +10,9 @@ class WPOpauth
 					$localCustomOpenIDEnabled,
 					$localCustomOpenID,
 					$emailNewAccounts,
-					$allowDisabling;
+					$allowDisabling,
+					$strategies,
+					$disabledStrategies;
 
 	public function __construct($config = array())
 	{
@@ -34,6 +36,13 @@ class WPOpauth
 			get_site_option('wp-opauth-email-new-accounts', true);
 		$this->allowDisabling =
 			get_site_option('wp-opauth-allow-disabling', true);
+		$this->disabledStrategies =
+			get_option('wp-opauth-disabled-strategies', array());
+
+		if (!$this->allowDisabling)
+		{
+			$this->disabledStrategies = array();
+		}
 
 		if ($salt === false)
 		{
@@ -69,6 +78,14 @@ class WPOpauth
 			$error .= '</ul>';
 		}
 
+		/* Priorities are: local > network > default */
+		$this->networkStrategies = array_merge($this->opauth->strategyMap,
+				$this->networkCustomOpenID);
+		/* Unset the disabled strategies */
+		$this->opauth->strategyMap =
+			array_diff_key($this->opauth->strategyMap, $this->disabledStrategies);
+
+
 		if (sizeof($config['Strategy']))
 		{
 			add_action('login_form', array($this, 'loginForm'));
@@ -91,11 +108,7 @@ class WPOpauth
 
 	public function loginForm()
 	{
-		$strategies = $this->opauth->strategyMap;
-		$networkCustomOpenID = (array_key_exists('openid', $strategies)?
-				$this->networkCustomOpenID : array());
-		$localCustomOpenID = (array_key_exists('openid', $strategies)?
-				$this->localCustomOpenID : array());
+		$strategies = $this->getStrategies();
 
 		if ($this->areButtonsOutside)
 		{
@@ -379,6 +392,9 @@ class WPOpauth
 	{
 		global $errors, $success;
 		$customOpenID = $this->localCustomOpenID;
+		$allowDisabling = $this->allowDisabling;
+		$disabledStrategies = $this->disabledStrategies;
+		$strategies = $this->networkStrategies;
 
 		if (!empty($_POST))
 		{
@@ -386,6 +402,8 @@ class WPOpauth
 			$customOpenID =
 				get_option('wp-opauth-local-custom-openid', array());
 			$success = __('Settings updated successfully', 'wp-opauth');
+			$disabledStrategies =
+				get_option('wp-opauth-disabled-strategies', array());
 		}
 
 		wp_enqueue_style('wp-opauth-admin',
@@ -537,6 +555,7 @@ class WPOpauth
 		$uploadDir = wp_upload_dir();
 		$baseUploadDir = $uploadDir['basedir'] . DIRECTORY_SEPARATOR . 'wp-opauth';
 		$baseUploadURL = $uploadDir['baseurl'] . '/wp-opauth';
+		$disabledStrategies = array();
 
 		self::checkAndCreateDir($baseUploadDir, 0755);
 
@@ -564,6 +583,19 @@ class WPOpauth
 			}
 		}
 
+		/* Disabled network strategies */
+		if (array_key_exists('enabled', $_POST))
+		{
+			foreach ($this->networkStrategies as $id => $info)
+			{
+				if (!array_key_exists($id, $_POST['enabled']))
+				{
+					/* The key makes coding everything else easier */
+					$disabledStrategies[$id] = null;
+				}
+			}
+		}
+
 		/* Delete the old icons */
 		$oldIcons = array_diff_key($this->localCustomOpenID, $customOpenID);
 		foreach ($oldIcons as $info)
@@ -576,6 +608,7 @@ class WPOpauth
 		}
 
 		update_option('wp-opauth-local-custom-openid', $customOpenID);
+		update_option('wp-opauth-disabled-strategies', $disabledStrategies);
 	}
 
 	public static function generateRandomSalt($min, $max)
@@ -741,6 +774,14 @@ class WPOpauth
 
 		require WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'views'
 			. DIRECTORY_SEPARATOR .  'openid_variables.php';
+	}
+
+	private function getStrategies()
+	{
+		/* Priorities are: local > network > default */
+		$network =
+			array_diff_key($this->networkStrategies, $this->disabledStrategies);
+		return array_merge($network, $this->localCustomOpenID);
 	}
 }
 
