@@ -300,7 +300,7 @@ class WPOpauth
 			self::emailUserInformation($user);
 		}
 
-		$wpdb->insert($table,
+		$wpdb->replace($table,
 				array(
 					'provider' => $response['auth']['provider'],
 					'remote_id' => $response['auth']['uid'],
