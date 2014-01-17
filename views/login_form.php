@@ -44,6 +44,11 @@
 				}
 				else
 				{
+					/* Skip custom openid providers if openid is not available */
+					if (!array_key_exists('openid', $strategies))
+					{
+						continue;
+					}
 					$name = $id;
 					$url = site_url('wp-login.php?openidurl=' .
 							urlencode($info['url']) . '&openidname=' . urlencode($name));
