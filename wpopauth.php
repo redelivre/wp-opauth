@@ -64,20 +64,6 @@ class WPOpauth
 			$this->opauth = new Opauth($config, false);
 		}
 
-		/* Show errors */
-		if (array_key_exists('wp-opauth-errors', $_POST))
-		{
-			global $error;
-
-			$errors = json_decode($_POST['wp-opauth-errors']);
-			$error .= '<ul>';
-			foreach ($errors as $e)
-			{
-				$error .= "<li>$e</li>";
-			}
-			$error .= '</ul>';
-		}
-
 		/* Priorities are: local > network > default */
 		$this->networkStrategies = array_merge($this->opauth->strategyMap,
 				$this->networkCustomOpenID);
@@ -104,6 +90,21 @@ class WPOpauth
 			self::handleOpenIDRedirection();
 			die;
 		}
+
+		/* Show errors */
+		if (array_key_exists('wp-opauth-errors', $_POST))
+		{
+			global $error;
+
+			$errors = json_decode(stripslashes($_POST['wp-opauth-errors']));
+			$error .= '<ul>';
+			foreach ($errors as $e)
+			{
+				$error .= "<li>$e</li>";
+			}
+			$error .= '</ul>';
+		}
+
 	}
 
 	public function loginForm()
