@@ -13,7 +13,8 @@ function updateFromPost($variables)
 
 	foreach ($variables as $v)
 	{
-		$values[$v] = (array_key_exists($v, $_POST)? $_POST[$v] : '');
+		$sv = sanitize_html_class($v);
+		$values[$v] = (array_key_exists($sv, $_POST)? $_POST[$sv] : '');
 	}
 
 	return $values;
@@ -46,16 +47,14 @@ function replaceVariables($url, $values)
 	return str_replace($search, $replace, $url);
 }
 
-$url = (array_key_exists('url', $_GET)? $_GET['url'] : '');
-$name = (array_key_exists('name', $_GET)? $_GET['name'] : '');
+$url = (array_key_exists('openidurl', $_GET)? $_GET['openidurl'] : '');
+$name = (array_key_exists('openidname', $_GET)? $_GET['openidname'] : '');
 $values = updateFromPost(getVariables($url));
 
 if (isFormFilledUp($values))
 {
-	require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'wpopauth.php';
-
 	$url = replaceVariables($url, $values);
-	WPOpauth::redirectWithPost('auth/openid',
+	WPOpauth::redirectWithPost(plugins_url('auth/openid', __FILE__),
 			array('openid_url' => $url));
 	die;
 }

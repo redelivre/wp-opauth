@@ -23,9 +23,8 @@
 				else
 				{
 					$name = $id;
-					$url = plugins_url('openidredirect.php?url=' .
-							urlencode($info['url']) . '&name=' . urlencode($name),
-							dirname(__FILE__));
+					$url = site_url('wp-login.php?openidurl=' .
+							urlencode($info['url']) . '&openidname=' . urlencode($name));
 					$icon = site_url($info['icon'] === null?
 							DEFAULT_OPENID_ICON : $info['icon']);
 				}

@@ -73,6 +73,17 @@ class WPOpauth
 		}
 		add_action('network_admin_menu', array($this, 'networkAdminMenu'));
 		add_action('admin_menu', array($this, 'adminMenu'));
+		add_action('login_init', array($this, 'loginInit'));
+	}
+
+	public function loginInit()
+	{
+		/* Handle custom openid providers */
+		if (array_key_exists('openidurl', $_GET))
+		{
+			require WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'openidredirect.php';
+			die;
+		}
 	}
 
 	public function loginForm()
