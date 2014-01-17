@@ -488,6 +488,8 @@ class WPOpauth
 
 		if (array_key_exists('customopenid', $candidate))
 		{
+			/* openid is reserved */
+			unset($candidate['customopenid']['openid']);
 			foreach ($candidate['customopenid'] as $id => $info)
 			{
 				$customOpenID[$id]['url'] = (string) $info['url'];
@@ -562,6 +564,8 @@ class WPOpauth
 
 		if (array_key_exists('customopenid', $candidate))
 		{
+			/* openid is reserved */
+			unset($candidate['customopenid']['openid']);
 			foreach ($candidate['customopenid'] as $id => $info)
 			{
 				$customOpenID[$id]['url'] = (string) $info['url'];

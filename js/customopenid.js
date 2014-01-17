@@ -6,7 +6,8 @@ function addCustomOpenID()
 	var urlName = 'customopenid[' + id + '][url]';
 	var iconName = 'customopenid[' + id + '][icon]';
 
-	if (id && !jQuery('input[name="' + urlName + '"]').length)
+	/* openid is reserved */
+	if (id && id != 'openid' && !jQuery('input[name="' + urlName + '"]').length)
 	{
 		var div = jQuery(
 				'<div class="wp-opauth-custom-openid-item"></div>').appendTo(list);
