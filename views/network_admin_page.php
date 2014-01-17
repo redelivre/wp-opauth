@@ -38,6 +38,12 @@
 	<?php
 		_e('Email new users their username and password', 'wp-opauth');
 	?>
+	<br>
+	<input type="checkbox" name="allowDisabling"
+		<?php if ($allowDisabling) echo 'checked="yes"'; ?> >
+	<?php
+		_e('Allow individual sites to disable strategies', 'wp-opauth');
+	?>
 	<h3><?php _e('Custom openid providers', 'wp-opauth'); ?></h3>
 	<p><i><?php
 		_e('Requires the openid strategy to be enabled', 'wp-opauth');

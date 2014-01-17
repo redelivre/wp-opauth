@@ -9,7 +9,8 @@ class WPOpauth
 					$networkCustomOpenID,
 					$localCustomOpenIDEnabled,
 					$localCustomOpenID,
-					$emailNewAccounts;
+					$emailNewAccounts,
+					$allowDisabling;
 
 	public function __construct($config = array())
 	{
@@ -31,6 +32,8 @@ class WPOpauth
 			 array());
 		$this->emailNewAccounts =
 			get_site_option('wp-opauth-email-new-accounts', true);
+		$this->allowDisabling =
+			get_site_option('wp-opauth-allow-disabling', true);
 
 		if ($salt === false)
 		{
@@ -411,6 +414,7 @@ class WPOpauth
 		$customOpenID = $this->networkCustomOpenID;
 		$localCustomOpenIDEnabled = $this->localCustomOpenIDEnabled;
 		$emailNewAccounts = $this->emailNewAccounts;
+		$allowDisabling = $this->allowDisabling;
 
 		if (!empty($_POST))
 		{
@@ -424,6 +428,8 @@ class WPOpauth
 				get_site_option('wp-opauth-local-custom-openid-enabled', true);
 			$emailNewAccounts =
 				get_site_option('wp-opauth-email-new-accounts', true);
+			$allowDisabling =
+				get_site_option('wp-opauth-allow-disabling', true);
 			$success = __('Settings updated successfully', 'wp-opauth');
 		}
 
@@ -453,6 +459,8 @@ class WPOpauth
 			(array_key_exists('localCustomOpenIDEnabled', $candidate)? true : '');
 		$emailNewAccounts =
 			(array_key_exists('emailNewAccounts', $candidate)? true : '');
+		$allowDisabling =
+			(array_key_exists('allowDisabling', $candidate)? true : '');
 		$uploadDir = wp_upload_dir();
 		$baseUploadDir = $uploadDir['basedir'] . DIRECTORY_SEPARATOR . 'wp-opauth';
 		$baseUploadURL = $uploadDir['baseurl'] . '/wp-opauth';
@@ -520,6 +528,7 @@ class WPOpauth
 		update_site_option('wp-opauth-local-custom-openid-enabled',
 				$localCustomOpenIDEnabled);
 		update_site_option('wp-opauth-email-new-accounts', $emailNewAccounts);
+		update_site_option('wp-opauth-allow-disabling', $allowDisabling);
 	}
 
 	public function saveLocalSettings($candidate)
