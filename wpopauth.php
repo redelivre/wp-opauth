@@ -81,7 +81,7 @@ class WPOpauth
 		/* Handle custom openid providers */
 		if (array_key_exists('openidurl', $_GET))
 		{
-			require WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'openidredirect.php';
+			self::handleOpenIDRedirection();
 			die;
 		}
 	}
@@ -660,6 +660,74 @@ class WPOpauth
 		wp_mail($user['user_email'],
 				__('Wordpress Account Creation', 'wp-opauth'),
 				$message);
+	}
+
+	static private function getCustomOpenIDVariables($string)
+	{
+		preg_match_all('/%([^%]*)%/', $string, $matches);
+
+		return $matches[1];
+	}
+
+	static private function updateCustomOpenIDVariablesFromPost($variables)
+	{
+		$values = array();
+
+		foreach ($variables as $v)
+		{
+			$sv = sanitize_html_class($v);
+			$values[$v] = (array_key_exists($sv, $_POST)? $_POST[$sv] : '');
+		}
+
+		return $values;
+	}
+
+	static private function isCustomOpenIDFormFilledOut($values)
+	{
+		foreach ($values as $v)
+		{
+			if (trim($v) === '')
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	static private function replaceCustomOpenIDVariables($url, $values)
+	{
+		$search = array();
+		$replace = array();
+
+		foreach ($values as $key => $v)
+		{
+			$search[] = '%' . $key . '%';
+			$replace[] = $v;
+		}
+
+		return str_replace($search, $replace, $url);
+	}
+
+	static private function handleOpenIDRedirection()
+	{
+		$url = (array_key_exists('openidurl', $_GET)? $_GET['openidurl'] : '');
+		$name = (array_key_exists('openidname', $_GET)? $_GET['openidname'] : '');
+		$values = self::updateCustomOpenIDVariablesFromPost(
+				self::getCustomOpenIDVariables($url));
+
+		if (self::isCustomOpenIDFormFilledOut($values))
+		{
+			$url = self::replaceCustomOpenIDVariables($url, $values);
+			self::redirectWithPost(plugins_url('auth/openid', __FILE__),
+					array('openid_url' => $url));
+			die;
+		}
+
+		/* The form is not filled out, show it */
+
+		require WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'views'
+			. DIRECTORY_SEPARATOR .  'openid_variables.php';
 	}
 }
 
