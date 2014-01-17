@@ -265,6 +265,11 @@ class WPOpauth
 	{
 		global $wpdb;
 
+		if (!get_option('users_can_register'))
+		{
+			return new WP_Error(1, __('User registration is disabled', 'wp-opauth'));
+		}
+
 		$table = self::getUserTableName();
 
 		$name = self::getName($response);
