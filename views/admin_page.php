@@ -9,6 +9,14 @@
 		</p>
 		<?php
 	}
+	if (!empty($success))
+	{
+		?>
+		<p class="wp-opauth-success-message">
+			<?php echo $success; ?>
+		</p>
+		<?php
+	}
 ?>
 
 <form id="opauth-config" method="post" enctype="multipart/form-data">

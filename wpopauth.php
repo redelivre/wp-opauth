@@ -374,7 +374,7 @@ class WPOpauth
 
 	public function adminOptions()
 	{
-		global $errors;
+		global $errors, $success;
 		$customOpenID = $this->localCustomOpenID;
 
 		if (!empty($_POST))
@@ -382,6 +382,7 @@ class WPOpauth
 			$this->saveLocalSettings($_POST);
 			$customOpenID =
 				get_option('wp-opauth-local-custom-openid', array());
+			$success = __('Settings updated successfully', 'wp-opauth');
 		}
 
 		wp_enqueue_style('wp-opauth-admin',
@@ -423,6 +424,7 @@ class WPOpauth
 				get_site_option('wp-opauth-local-custom-openid-enabled', true);
 			$emailNewAccounts =
 				get_site_option('wp-opauth-email-new-accounts', true);
+			$success = __('Settings updated successfully', 'wp-opauth');
 		}
 
 		wp_enqueue_style('wp-opauth-admin',

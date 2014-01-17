@@ -2,3 +2,8 @@
 {
 	color: red;
 }
+
+.wp-opauth-success-message
+{
+	color: green;
+}
