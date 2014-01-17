@@ -1,15 +1,42 @@
+<?php
+	/* Priorities are: local > network > default */
+	$strategies = array_merge($strategies, $networkCustomOpenID);
+	$strategies = array_merge($strategies, $localCustomOpenID);
+?>
 <div id="wp-opauth-login">
 	<h3 class="wp-opauth-login-title">
 		<?php _e('Or login using:', 'wp-opauth'); ?>
 	</h3>
+	<?php
+		if (array_key_exists('openid', $strategies))
+		{
+			/* JS hack is needed because nested forms are invalid */
+			?>
+			<div id="wp-opauth-openid-form">
+				<img src="<?php echo plugins_url('favicons/openid.png',
+					dirname(__FILE__)); ?>" alt="openid">
+				<span><?php echo _e('OpenID URL', 'wp-opauth'); ?></span>
+				<br>
+				<div id="wp-opauth-openid-input">
+					<input type="text" id="wp-opauth-openid-url">
+					<input type="button" id="wp-opauth-openid-login"
+						value="<?php _e('Login', 'wp-opauth'); ?>">
+				</div>
+			</div>
+			<?php
+		}
+	?>
 	<ul class="wp-opauth-login-strategies">
 		<?php
-			/* Priorities are: local > network > default */
-			$strategies = array_merge($strategies, $networkCustomOpenID);
-			$strategies = array_merge($strategies, $localCustomOpenID);
+
 			ksort($strategies);
 			foreach ($strategies as $id => $info)
 			{
+				/* Treated above */
+				if ($id === 'openid')
+				{
+					continue;
+				}
 				/* icon is only set it's a custom openid provider */
 				if (!array_key_exists('icon', $info))
 				{

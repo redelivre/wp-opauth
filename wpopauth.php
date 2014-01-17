@@ -99,6 +99,8 @@ class WPOpauth
 			wp_enqueue_script('wp-opauth-login-movebuttons',
 					plugins_url('js/movebuttons.js', __FILE__));
 		}
+		wp_enqueue_script('wp-opauth-login-openid-form',
+				plugins_url('js/openidform.js', __FILE__));
 		wp_enqueue_style('wp-opauth-login',
 				plugins_url('css/login.css', __FILE__));
 
