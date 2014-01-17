@@ -19,3 +19,28 @@
 	padding: 26px 24px 46px;
 	font-weight: normal;
 }
+
+#wp-opauth-openid-input
+{
+	width: 100%;
+}
+
+#wp-opauth-openid-input span
+{
+	display: block;
+	overflow: hidden;
+	padding-right: 10px;
+}
+
+#wp-opauth-openid-login
+{
+	float: right;
+	height: auto;
+	padding: 3px;
+}
+
+#wp-opauth-openid-url
+{
+	font-size: 12px;
+	padding: 3px;
+}

@@ -18,9 +18,9 @@
 				<span><?php echo _e('OpenID URL', 'wp-opauth'); ?></span>
 				<br>
 				<div id="wp-opauth-openid-input">
-					<input type="text" id="wp-opauth-openid-url">
 					<input type="button" id="wp-opauth-openid-login"
 						value="<?php _e('Login', 'wp-opauth'); ?>">
+					<span><input type="text" id="wp-opauth-openid-url"></span>
 				</div>
 			</div>
 			<?php
