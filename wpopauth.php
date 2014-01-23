@@ -377,7 +377,7 @@ class WPOpauth
 	{
 		add_menu_page('Opauth Plugin Options',
 				'Opauth',
-				'manage_options',
+				'manage_network_options',
 				'wp-opauth',
 				array($this, 'networkAdminOptions'));
 	}
