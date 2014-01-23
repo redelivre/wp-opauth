@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-14 17:06:18+00:00\n"
+"POT-Creation-Date: 2014-01-23 23:24:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -18,15 +18,19 @@ msgstr ""
 msgid "Opauth"
 msgstr ""
 
-#: views/admin_page.php:15 views/network_admin_page.php:27
+#: views/admin_page.php:23 views/network_admin_page.php:47
 msgid "Custom openid providers"
 msgstr ""
 
-#: views/admin_page.php:17
+#: views/admin_page.php:25
 msgid "Requires the openid strategy to be enabled in the network"
 msgstr ""
 
-#: views/admin_page.php:26 views/network_admin_page.php:77
+#: views/admin_page.php:36
+msgid "Enabled network strategies"
+msgstr ""
+
+#: views/admin_page.php:69 views/network_admin_page.php:97
 msgid "Store Settings"
 msgstr ""
 
@@ -34,11 +38,15 @@ msgstr ""
 msgid "Icons are 16x16 png files up to %d bytes"
 msgstr ""
 
-#: views/custom_openid.php:22 wpopauth.php:368 wpopauth.php:405
+#: views/custom_openid.php:7
+msgid "To add variables, place %% around them (ie: %s)"
+msgstr ""
+
+#: views/custom_openid.php:26 wpopauth.php:423 wpopauth.php:468
 msgid "Remove"
 msgstr ""
 
-#: views/custom_openid.php:31
+#: views/custom_openid.php:35
 msgid "Add"
 msgstr ""
 
@@ -46,60 +54,108 @@ msgstr ""
 msgid "Or login using:"
 msgstr ""
 
-#: views/network_admin_page.php:15
+#: views/login_form.php:13
+msgid "OpenID URL"
+msgstr ""
+
+#: views/login_form.php:17
+msgid "Login"
+msgstr ""
+
+#: views/network_admin_page.php:23
 msgid "General Options"
 msgstr ""
 
-#: views/network_admin_page.php:19
+#: views/network_admin_page.php:27
 msgid "Try placing the login buttons below the login form"
 msgstr ""
 
-#: views/network_admin_page.php:25
+#: views/network_admin_page.php:33
 msgid "Allow individual sites to specify custom openid providers"
 msgstr ""
 
-#: views/network_admin_page.php:29
-msgid "Requires the openid strategy to be enabled"
+#: views/network_admin_page.php:39
+msgid "Email new users their username and password"
 msgstr ""
 
-#: views/network_admin_page.php:35
-msgid "Strategies"
+#: views/network_admin_page.php:45
+msgid "Allow individual sites to disable strategies"
 msgstr ""
 
 #: views/network_admin_page.php:49
+msgid "Requires the openid strategy to be enabled"
+msgstr ""
+
+#: views/network_admin_page.php:55
+msgid "Strategies"
+msgstr ""
+
+#: views/network_admin_page.php:69
 msgid "Enabled"
 msgstr ""
 
-#: views/network_admin_page.php:71
+#: views/network_admin_page.php:91
 msgid "Return URL"
 msgstr ""
 
-#: wp-opauth.php:34
-msgid "The Opauth class file was not found."
+#: views/openid_variables.php:15
+msgid "Next"
 msgstr ""
 
 #: wp-opauth.php:35
-msgid "Did you download the submodules?"
+msgid "The Opauth class file was not found."
 msgstr ""
 
 #: wp-opauth.php:36
+msgid "Did you download the submodules?"
+msgstr ""
+
+#: wp-opauth.php:37
 msgid "Read the README file for more information"
 msgstr ""
 
-#: wpopauth.php:225
+#: wpopauth.php:261
 msgid "Anonymous"
 msgstr ""
 
-#: wpopauth.php:366 wpopauth.php:403
+#: wpopauth.php:270
+msgid "User registration is disabled"
+msgstr ""
+
+#: wpopauth.php:410 wpopauth.php:457
+msgid "Settings updated successfully"
+msgstr ""
+
+#: wpopauth.php:421 wpopauth.php:466
 msgid "Login URL"
 msgstr ""
 
-#: wpopauth.php:587
+#: wpopauth.php:675
 msgid "The uploaded file is larger than %d bytes."
 msgstr ""
 
-#: wpopauth.php:597
+#: wpopauth.php:685
 msgid "The uploaded file is not a valid png file."
+msgstr ""
+
+#: wpopauth.php:704
+msgid "Hello %s,"
+msgstr ""
+
+#: wpopauth.php:707
+msgid "Your wordpress account was created."
+msgstr ""
+
+#: wpopauth.php:710
+msgid "Username:"
+msgstr ""
+
+#: wpopauth.php:713
+msgid "Password:"
+msgstr ""
+
+#: wpopauth.php:717
+msgid "Wordpress Account Creation"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
