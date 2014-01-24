@@ -7,7 +7,10 @@ function submitOpenIDForm()
 	url = url.replace(/\?.+/, '');
 	url += '?openidurl=' + encodeURIComponent(input);
 
-	window.location = url;
+	if (input)
+	{
+		window.location = url;
+	}
 }
 
 jQuery(document).ready(function()
