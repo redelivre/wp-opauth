@@ -258,6 +258,11 @@ class WPOpauth
 			$name .= $response['auth']['info']['last_name'];
 		}
 
+		if (!$name && array_key_exists('nickname', $response['auth']['info']))
+		{
+			$name = $response['auth']['info']['nickname'];
+		}
+
 		return ($name? $name : __('Anonymous', 'wp-opauth'));
 	}
 
