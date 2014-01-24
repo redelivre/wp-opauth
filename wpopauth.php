@@ -71,7 +71,6 @@ class WPOpauth
 		$this->opauth->strategyMap =
 			array_diff_key($this->opauth->strategyMap, $this->disabledStrategies);
 
-
 		if (sizeof($config['Strategy']))
 		{
 			add_action('login_form', array($this, 'loginForm'));
@@ -797,6 +796,33 @@ class WPOpauth
 		$network =
 			array_diff_key($this->networkStrategies, $this->disabledStrategies);
 		return array_merge($network, $this->localCustomOpenID);
+	}
+
+	static private function getUsers()
+	{
+		global $wpdb;
+
+		$table = self::getUserTableName();
+		$query = "SELECT * FROM $table";
+
+		$users = array();
+		foreach ($wpdb->get_results($query, ARRAY_A) as $user)
+		{
+			$data = get_userdata($user['local_id']);
+
+			if ($data !== false)
+			{
+				$user['display_name'] = $data->data->display_name;
+				$users[] = $user;
+			}
+		}
+
+		usort($users, function ($a, $b)
+		{
+			return strcasecmp($a['display_name'], $b['display_name']);
+		});
+
+		return $users;
 	}
 }
 
