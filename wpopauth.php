@@ -379,11 +379,22 @@ class WPOpauth
 
 	public function networkAdminMenu()
 	{
-		add_menu_page('Opauth Plugin Options',
-				'Opauth',
+		add_menu_page(__('Opauth', 'wp-opauth'),
+				__('Opauth', 'wp-opauth'),
+				'manage_network_options',
+				'wp-opauth');
+		add_submenu_page('wp-opauth',
+				__('Opauth Plugin Options', 'wp-opauth'),
+				__('Settings', 'wp-opauth'),
 				'manage_network_options',
 				'wp-opauth',
 				array($this, 'networkAdminOptions'));
+		add_submenu_page('wp-opauth',
+				__('Opauth User List', 'wp-opauth'),
+				__('Users', 'wp-opauth'),
+				'manage_network_options',
+				'wp-opauth-users',
+				array(get_class(), 'showUsers'));
 	}
 
 	public function adminMenu()
@@ -823,6 +834,15 @@ class WPOpauth
 		});
 
 		return $users;
+	}
+
+	public static function showUsers()
+	{
+		$users = self::getUsers();
+
+		require WPOPAUTH_PATH
+			. DIRECTORY_SEPARATOR . 'views'
+			. DIRECTORY_SEPARATOR . 'user_list.php';
 	}
 }
 
