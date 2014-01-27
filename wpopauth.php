@@ -401,7 +401,7 @@ class WPOpauth
 	{
 		if ($this->localCustomOpenIDEnabled)
 		{
-			add_menu_page('Opauth Plugin Options',
+			add_options_page('Opauth Plugin Options',
 					'Opauth',
 					'manage_options',
 					'wp-opauth',
