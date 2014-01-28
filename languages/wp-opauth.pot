@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Opauth 0.01\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/wp-opauth\n"
-"POT-Creation-Date: 2014-01-23 23:24:23+00:00\n"
+"POT-Creation-Date: 2014-01-28 13:39:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -14,7 +14,8 @@ msgstr ""
 
 #. #-#-#-#-#  wp-opauth.pot (Opauth 0.01)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: views/admin_page.php:1 views/network_admin_page.php:1
+#: views/admin_page.php:1 views/network_admin_page.php:1 wpopauth.php:407
+#: wpopauth.php:408
 msgid "Opauth"
 msgstr ""
 
@@ -42,7 +43,7 @@ msgstr ""
 msgid "To add variables, place %% around them (ie: %s)"
 msgstr ""
 
-#: views/custom_openid.php:26 wpopauth.php:423 wpopauth.php:468
+#: views/custom_openid.php:26 wpopauth.php:463 wpopauth.php:508
 msgid "Remove"
 msgstr ""
 
@@ -102,59 +103,91 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: wp-opauth.php:35
-msgid "The Opauth class file was not found."
+#: views/user_list.php:1 wpopauth.php:418
+msgid "Opauth User List"
 msgstr ""
 
-#: wp-opauth.php:36
-msgid "Did you download the submodules?"
+#: views/user_list.php:3
+msgid "%d opauth users"
+msgstr ""
+
+#: views/user_list.php:9
+msgid "Name"
+msgstr ""
+
+#: views/user_list.php:12
+msgid "Provider"
+msgstr ""
+
+#: views/user_list.php:15
+msgid "Remote ID"
 msgstr ""
 
 #: wp-opauth.php:37
+msgid "The Opauth class file was not found."
+msgstr ""
+
+#: wp-opauth.php:38
+msgid "Did you download the submodules?"
+msgstr ""
+
+#: wp-opauth.php:39
 msgid "Read the README file for more information"
 msgstr ""
 
-#: wpopauth.php:261
+#: wpopauth.php:290
 msgid "Anonymous"
 msgstr ""
 
-#: wpopauth.php:270
+#: wpopauth.php:299
 msgid "User registration is disabled"
 msgstr ""
 
-#: wpopauth.php:410 wpopauth.php:457
+#: wpopauth.php:412
+msgid "Opauth Plugin Options"
+msgstr ""
+
+#: wpopauth.php:413
+msgid "Settings"
+msgstr ""
+
+#: wpopauth.php:419
+msgid "Users"
+msgstr ""
+
+#: wpopauth.php:450 wpopauth.php:497
 msgid "Settings updated successfully"
 msgstr ""
 
-#: wpopauth.php:421 wpopauth.php:466
+#: wpopauth.php:461 wpopauth.php:506
 msgid "Login URL"
 msgstr ""
 
-#: wpopauth.php:675
+#: wpopauth.php:715
 msgid "The uploaded file is larger than %d bytes."
 msgstr ""
 
-#: wpopauth.php:685
+#: wpopauth.php:725
 msgid "The uploaded file is not a valid png file."
 msgstr ""
 
-#: wpopauth.php:704
+#: wpopauth.php:744
 msgid "Hello %s,"
 msgstr ""
 
-#: wpopauth.php:707
+#: wpopauth.php:747
 msgid "Your wordpress account was created."
 msgstr ""
 
-#: wpopauth.php:710
+#: wpopauth.php:750
 msgid "Username:"
 msgstr ""
 
-#: wpopauth.php:713
+#: wpopauth.php:753
 msgid "Password:"
 msgstr ""
 
-#: wpopauth.php:717
+#: wpopauth.php:757
 msgid "Wordpress Account Creation"
 msgstr ""
 
