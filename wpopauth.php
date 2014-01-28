@@ -459,7 +459,7 @@ class WPOpauth
 		wp_localize_script('wp-opauth-custom-openid', 'i18n',
 				array(
 					'defaultURL' => __("Login URL", 'wp-opauth'),
-					'defaultIconURL' => site_url(DEFAULT_OPENID_ICON),
+					'defaultIconURL' => site_url(WPOPAUTH_DEFAULT_OPENID_ICON),
 					'remove' => __("Remove", 'wp-opauth')));
 
 		require WPOPAUTH_PATH
@@ -504,7 +504,7 @@ class WPOpauth
 		wp_localize_script('wp-opauth-custom-openid', 'i18n',
 				array(
 					'defaultURL' => __("Login URL", 'wp-opauth'),
-					'defaultIconURL' => site_url(DEFAULT_OPENID_ICON),
+					'defaultIconURL' => site_url(WPOPAUTH_DEFAULT_OPENID_ICON),
 					'remove' => __("Remove", 'wp-opauth')));
 
 		require WPOPAUTH_PATH
@@ -710,10 +710,10 @@ class WPOpauth
 		}
 
 		/* Make sure the file is not too big */
-		if ($_FILES[$key]['size'][$name]['icon'] > MAXIMUM_ICON_SIZE)
+		if ($_FILES[$key]['size'][$name]['icon'] > WPOPAUTH_MAXIMUM_ICON_SIZE)
 		{
 			$errors .= sprintf(__('The uploaded file is larger than %d bytes.',
-						'wp-opauth'), MAXIMUM_ICON_SIZE);
+						'wp-opauth'), WPOPAUTH_MAXIMUM_ICON_SIZE);
 
 			return false;
 		}

@@ -10,20 +10,21 @@ Text Domain: wp-opauth
 Network: true
 */
 
-define('CONF_FILE',
+define('WPOPAUTH_CONF_FILE',
 		dirname(__FILE__) . DIRECTORY_SEPARATOR . 'opauth.conf.php');
-define('OPAUTH_PATH',
+define('WPOPAUTH_OPAUTH_PATH',
 		dirname(__FILE__)
 		. DIRECTORY_SEPARATOR . 'opauth'
 		. DIRECTORY_SEPARATOR . 'lib'
 		. DIRECTORY_SEPARATOR . 'Opauth');
 define('WPOPAUTH_PATH', dirname(__FILE__));
 define('WPOPAUTH_USER_TABLE_NAME', 'wpopauth_users');
-define('OPAUTH_CLASS_FILE', OPAUTH_PATH . DIRECTORY_SEPARATOR . 'Opauth.php');
-define('DEFAULT_OPENID_ICON',
+define('WPOPAUTH_OPAUTH_CLASS_FILE',
+		WPOPAUTH_OPAUTH_PATH . DIRECTORY_SEPARATOR . 'Opauth.php');
+define('WPOPAUTH_DEFAULT_OPENID_ICON',
 		substr(plugins_url('favicons/openid.png', __FILE__), strlen(site_url())));
 /* 4 kilobytes should be enough for tiny 16x16 icons */
-define('MAXIMUM_ICON_SIZE', 1 << 12);
+define('WPOPAUTH_MAXIMUM_ICON_SIZE', 1 << 12);
 define('WPOPAUTH_INVALID_EMAIL', 'noemail@example.com');
 define('WPOPAUTH_REDIRECT_STRATEGY', '_redirect');
 
@@ -31,7 +32,7 @@ define('WPOPAUTH_REDIRECT_STRATEGY', '_redirect');
  * error message below. */
 load_plugin_textdomain('wp-opauth', false,
 		dirname(plugin_basename(__FILE__)) . '/languages/');
-if (!file_exists(OPAUTH_CLASS_FILE))
+if (!file_exists(WPOPAUTH_OPAUTH_CLASS_FILE))
 {
 	trigger_error(__('The Opauth class file was not found.', 'wp-opauth') . ' '
 			. __('Did you download the submodules?', 'wp-opauth') . ' '
@@ -40,8 +41,8 @@ if (!file_exists(OPAUTH_CLASS_FILE))
 	return;
 }
 
-require_once CONF_FILE;
-require_once OPAUTH_CLASS_FILE;
+require_once WPOPAUTH_CONF_FILE;
+require_once WPOPAUTH_OPAUTH_CLASS_FILE;
 require_once WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'wpopauth.php';
 
 $opauth = new WPOpauth($config);

@@ -49,7 +49,7 @@
 				{
 					$name = $id;
 					$icon = site_url($info['icon'] === null?
-							DEFAULT_OPENID_ICON : $info['icon']);
+							WPOPAUTH_DEFAULT_OPENID_ICON : $info['icon']);
 				}
 				?>
 				<input type="checkbox"

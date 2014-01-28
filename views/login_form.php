@@ -53,7 +53,7 @@
 					$url = site_url('wp-login.php?openidurl=' .
 							urlencode($info['url']) . '&openidname=' . urlencode($name));
 					$icon = site_url($info['icon'] === null?
-							DEFAULT_OPENID_ICON : $info['icon']);
+							WPOPAUTH_DEFAULT_OPENID_ICON : $info['icon']);
 				}
 				?>
 				<li class="wp-opauth-login-strategy">

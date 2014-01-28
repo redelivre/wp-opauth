@@ -1,7 +1,7 @@
 <div id="wp-opauth-custom-openid-list">
 	<i><?php
 		printf(__('Icons are 16x16 png files up to %d bytes', 'wp-opauth'),
-				MAXIMUM_ICON_SIZE);
+				WPOPAUTH_MAXIMUM_ICON_SIZE);
 	?></i>
 	<br>
 	<i><?php printf(__('To add variables, place %% around them (ie: %s)',
@@ -12,7 +12,7 @@
 		{
 			$hid = htmlspecialchars($id);
 			$iconURL = htmlspecialchars(site_url($info['icon'] === null?
-						DEFAULT_OPENID_ICON : $info['icon']));
+						WPOPAUTH_DEFAULT_OPENID_ICON : $info['icon']));
 		?>
 			<div class="wp-opauth-custom-openid-item">
 				<img width="16" height="16" src="<?php echo $iconURL; ?>"
