@@ -25,6 +25,7 @@ define('DEFAULT_OPENID_ICON',
 /* 4 kilobytes should be enough for tiny 16x16 icons */
 define('MAXIMUM_ICON_SIZE', 1 << 12);
 define('WPOPAUTH_INVALID_EMAIL', 'noemail@example.com');
+define('WPOPAUTH_REDIRECT_STRATEGY', '_redirect');
 
 /* This is not the best place for loading the translations. But we need for the
  * error message below. */

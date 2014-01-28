@@ -104,6 +104,14 @@ class WPOpauth
 			$error .= '</ul>';
 		}
 
+		if (array_key_exists('redirect_to', $_REQUEST))
+		{
+			if (!isset($_SESSION))
+			{
+				session_start();
+			}
+			$_SESSION['wp-opauth-redirect'] = $_REQUEST['redirect_to'];
+		}
 	}
 
 	public function loginForm()
@@ -127,8 +135,24 @@ class WPOpauth
 
 	public function init()
 	{
-		/* Run the callback */
-		if (preg_match( '/^'
+		/* Redirection */
+		if (preg_match('/^' . preg_quote($this->opauth->config['path'], '/')
+					. WPOPAUTH_REDIRECT_STRATEGY . '$/',
+					$_SERVER['REQUEST_URI']))
+		{
+			if (!isset($_SESSION))
+			{
+				session_start();
+			}
+
+			$redirectURL = (array_key_exists('wp-opauth-redirect', $_SESSION)?
+					$_SESSION['wp-opauth-redirect'] : admin_url());
+
+			wp_redirect($redirectURL);
+			die;
+		}
+		/* Callback */
+		else if (preg_match('/^'
 					. preg_quote($this->opauth->config['callback_url'], '/')
 					. '(\?[^\/]*)?$/',
 					$_SERVER['REQUEST_URI']))
@@ -214,7 +238,8 @@ class WPOpauth
 
 		self::loginAs($uid);
 
-		wp_redirect(get_home_url());
+		wp_redirect(
+				site_url($this->opauth->config['path'] . WPOPAUTH_REDIRECT_STRATEGY));
 	}
 
 	public static function redirectWithPost($url, $post)
