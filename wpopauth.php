@@ -392,7 +392,7 @@ class WPOpauth
 	private static function getUserTableName()
 	{
 		global $wpdb;
-		return $wpdb->prefix . WPOPAUTH_USER_TABLE_NAME;
+		return $wpdb->base_prefix . WPOPAUTH_USER_TABLE_NAME;
 	}
 
 	private static function loginAs($uid)
