@@ -399,7 +399,7 @@ class WPOpauth
 	{
 		$user = wp_set_current_user($uid);
 		wp_set_auth_cookie($user->ID);
-		do_action('wp_login', $user->user_login);
+		do_action('wp_login', $user->user_login, $user);
 	}
 
 	public function networkAdminMenu()
