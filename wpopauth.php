@@ -160,10 +160,24 @@ class WPOpauth
 			if (array_key_exists('state', $_GET)
 					&& $_GET['state'] != get_current_blog_id())
 			{
-				$details = get_blog_details($_GET['state']);
-				if ($details !== false)
+				if (get_blog_details($_GET['state']) !== false);
 				{
-					self::redirectWithPost($details->siteurl
+					self::redirectWithPost(get_site_url($_GET['state'],
+								$this->opauth->config['callback_url']), $_POST);
+					die;
+				}
+			}
+			/* One more redirect to support domain mapping */
+			else if (function_exists('domain_mapping_siteurl'))
+			{
+				global $current_blog;
+
+				$url = domain_mapping_siteurl(false);
+				$protocol = is_ssl() ? 'https://' : 'http://';
+				if ($url && $url != untrailingslashit(
+						$protocol . $current_blog->domain . $current_blog->path))
+				{
+					self::redirectWithPost(domain_mapping_siteurl(site_url())
 							. $this->opauth->config['callback_url'], $_POST);
 					die;
 				}
@@ -747,10 +761,10 @@ class WPOpauth
 		$message .=__('Your wordpress account was created.', 'wp-opauth');
 		$message .= '</p>';
 		$message .= '<p>';
-		$message .= __('Username:', 'wp-opauth') . ' ' .  $user['user_login'];
+		$message .= __('Username:', 'wp-opauth') . ' ' . $user['user_login'];
 		$message .= '</p>';
 		$message .= '<p>';
-		$message .= __('Password:', 'wp-opauth') . ' ' .  $user['user_pass'];
+		$message .= __('Password:', 'wp-opauth') . ' ' . $user['user_pass'];
 		$message .= '</p>';
 
 		wp_mail($user['user_email'],
@@ -823,7 +837,7 @@ class WPOpauth
 		/* The form is not filled out, show it */
 
 		require WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'views'
-			. DIRECTORY_SEPARATOR .  'openid_variables.php';
+			. DIRECTORY_SEPARATOR . 'openid_variables.php';
 	}
 
 	private function getStrategies()
