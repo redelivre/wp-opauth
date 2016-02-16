@@ -103,5 +103,9 @@ $config = array(
 			'key' => null,
 			'secret' => null
 		),
+		'LoginCidadao' => array(
+				'client_id' => null,
+				'client_secret' => null
+		),
 	),
 );

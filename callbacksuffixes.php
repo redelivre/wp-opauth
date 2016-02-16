@@ -20,6 +20,7 @@
 			'Twitter' => 'oauth_callback',
 			'Vimeo' => 'oauth_callback',
 			'VKontakte' => 'int_callback',
-			'Yahoojp' => 'oauth2callback',
+                        'Yahoojp' => 'oauth2callback',
+                        'LoginCidadao' => 'oauth2_callback',
 	);
 ?>
