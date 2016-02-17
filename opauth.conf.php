@@ -105,7 +105,8 @@ $config = array(
 		),
 		'LoginCidadao' => array(
 				'client_id' => null,
-				'client_secret' => null
+				'client_secret' => null,
+				'url_base' => null
 		),
 	),
 );
