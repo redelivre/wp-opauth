@@ -64,7 +64,8 @@ $config = array(
 		),
 		'Facebook' => array(
 			'app_id' => null,
-			'app_secret' => null
+			'app_secret' => null,
+			'scope' => 'public_profile,email'
 		),
 		'Flickr' => array(
 			'key' => null,
