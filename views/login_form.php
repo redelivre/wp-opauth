@@ -56,7 +56,7 @@
 							WPOPAUTH_DEFAULT_OPENID_ICON : $info['icon']);
 				}
 				?>
-				<li class="wp-opauth-login-strategy">
+				<li class="wp-opauth-login-strategy wp-opauth-login-strategy-<?php echo $name; ?>">
 					<a href="<?php echo $url; ?>"><?php
 						if ($icon)
 						{
