@@ -21,7 +21,7 @@
 	url = https://github.com/evernote/opauth-evernote.git
 [submodule "strategies/facebook"]
 	path = strategies/facebook
-	url = https://github.com/opauth/facebook.git
+	url = https://github.com/redelivre/facebook.git
 [submodule "strategies/flickr"]
 	path = strategies/flickr
 	url = https://github.com/pocket7878/opauth-flickr.git
