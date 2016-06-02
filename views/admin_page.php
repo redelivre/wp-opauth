@@ -34,7 +34,7 @@
 		if ($allowDisabling)
 		{
 			echo '<h2>', __('Enabled network strategies', 'wp-opauth'), '</h2>';
-			foreach ($strategies as $id => $info)
+			foreach ($net_strategies as $id => $info)
 			{
 				/* icon is only set it's a custom openid provider */
 				if (!array_key_exists('icon', $info))
@@ -63,6 +63,48 @@
 				<br>
 				<?php
 			}
+		}
+	?>
+	<h2><?php _e('Overwrite Strategies Config', 'wp-opauth'); ?></h2>
+	<?php
+		ksort($strategies);
+		foreach ($strategies as $id => $info)
+		{
+			$hid = htmlspecialchars($id);
+			echo '<div class="opauth-strategy-config">';
+			echo "<h3>$hid</h3>";
+			echo '<input ';
+			if (array_key_exists($id, $values))
+			{
+				echo 'checked="yes" ';
+			}
+			echo "type=\"checkbox\" name=\"strategies[{$hid}][enabled]\"> ";
+			_e('Enabled', 'wp-opauth');
+			echo '<br>';
+			foreach ($info as $name => $v)
+			{
+				$name = htmlspecialchars($name);
+				/* Only null values are to be edited via the panel */
+				if ($v === null)
+				{
+					echo "$name: ";
+					echo '<input ';
+					if (array_key_exists($id, $values)
+							&& array_key_exists($name, $values[$id]))
+					{
+						echo 'value="' . htmlspecialchars($values[$id][$name]) . '" ';
+					}
+					echo "type=\"text\" name=\"strategies[{$hid}][$name]\">";
+					echo '<br>';
+				}
+			}
+			if (array_key_exists($id, $callbackURLs))
+			{
+				echo "<span>";
+				_e('Return URL', 'wp-opauth');
+				echo ': ', $callbackURLs[$id], '</span>';
+			}
+			echo '</div>';
 		}
 	?>
 	<input type="hidden" name="post" value="yes">

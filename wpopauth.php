@@ -21,6 +21,8 @@ class WPOpauth
 		/* Only OpenID is enabled by default as it doesn't need to be configured */
 		$strategies = get_site_option('wp-opauth-strategies',
 				array('OpenID' => array()));
+		$local_strategies = get_option('wp-opauth-strategies',	array());
+		$strategies = array_merge($strategies, $local_strategies);
 		$salt = get_site_option('wp-opauth-salt');
 		$this->areButtonsOutside =
 			get_site_option('wp-opauth-are-buttons-outside', true);
@@ -454,7 +456,10 @@ class WPOpauth
 		$customOpenID = $this->localCustomOpenID;
 		$allowDisabling = $this->allowDisabling;
 		$disabledStrategies = $this->disabledStrategies;
-		$strategies = $this->networkStrategies;
+		$strategies = $this->originalStrategies;
+		$values = get_option('wp-opauth-strategies', array());
+		$callbackURLs = $this->loadCallbackURLs(true);
+		$net_strategies = $this->networkStrategies;
 
 		if (!empty($_POST))
 		{
@@ -613,6 +618,7 @@ class WPOpauth
 
 	public function saveLocalSettings($candidate)
 	{
+		$strategies = array();
 		$customOpenID = array();
 		$uploadDir = wp_upload_dir();
 		$baseUploadDir = $uploadDir['basedir'] . DIRECTORY_SEPARATOR . 'wp-opauth';
@@ -646,6 +652,27 @@ class WPOpauth
 				}
 			}
 		}
+		
+		if (array_key_exists('strategies', $candidate))
+		{
+			foreach ($candidate['strategies'] as $id => $info)
+			{
+				/* Only store enabled strategies that are in the config file */
+				if (array_key_exists($id, $this->originalStrategies)
+						&& array_key_exists('enabled', $info))
+				{
+					$strategies[$id] = array();
+					/* Only set the keys that are present in the filee */
+					foreach ($info as $key => $v)
+					{
+						if (array_key_exists($key, $this->originalStrategies[$id]))
+						{
+							$strategies[$id][$key] = $v;
+						}
+					}
+				}
+			}
+		}
 
 		/* Disabled network strategies */
 		if (array_key_exists('enabled', $_POST))
@@ -673,6 +700,7 @@ class WPOpauth
 
 		update_option('wp-opauth-local-custom-openid', $customOpenID);
 		update_option('wp-opauth-disabled-strategies', $disabledStrategies);
+		update_option('wp-opauth-strategies', $strategies);
 	}
 
 	public static function generateRandomSalt($min, $max)
@@ -690,7 +718,7 @@ class WPOpauth
 		return $salt;
 	}
 
-	private function loadCallbackURLs()
+	private function loadCallbackURLs($local = false)
 	{
 		require WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'callbacksuffixes.php';
 
@@ -698,7 +726,7 @@ class WPOpauth
 		foreach ($callbackSuffixes as $strategy => $suffix)
 		{
 			$callbackURLs[$strategy] =
-				network_site_url($this->originalPath)
+				($local ? site_url('/') : network_site_url($this->originalPath))
 				. strtolower($strategy) . '/' . $suffix;
 		}
 
