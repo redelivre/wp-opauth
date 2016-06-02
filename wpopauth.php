@@ -726,7 +726,7 @@ class WPOpauth
 		foreach ($callbackSuffixes as $strategy => $suffix)
 		{
 			$callbackURLs[$strategy] =
-				($local ? site_url('/') : network_site_url($this->originalPath))
+				($local ? site_url($this->originalPath) : network_site_url($this->originalPath))
 				. strtolower($strategy) . '/' . $suffix;
 		}
 
