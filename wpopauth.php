@@ -146,9 +146,11 @@ class WPOpauth
 			{
 				session_start();
 			}
-
+			$blog_root_admin_url = get_admin_url(1);
 			$redirectURL = (array_key_exists('wp-opauth-redirect', $_SESSION)?
-					$_SESSION['wp-opauth-redirect'] : admin_url());
+					$_SESSION['wp-opauth-redirect'] :
+						(admin_url() == $blog_root_admin_url ? $blog_root_admin_url : '/')
+			);
 
 			wp_redirect($redirectURL);
 			die;
