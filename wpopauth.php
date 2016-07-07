@@ -207,7 +207,15 @@ class WPOpauth
 			 * to configure */
 			$pos = strpos($params[0], '?');
 			$strategy = ($pos === false? $params[0] : substr($params[0], 0, $pos));
-			if ($strategy !== 'openid' && $strategy !== 'twitter' /*&& $strategy !== 'facebook'*/ ) // TODO check facebook local first
+			
+			$localFacebook = false;
+			$localconfig = get_option('wp-opauth-strategies', array());
+			if(array_key_exists('Facebook', $localconfig) && !empty($localconfig['Facebook']['app_id']) && !empty($localconfig['Facebook']['app_secret']))
+			{
+				$localFacebook = true;
+			}
+			
+			if ($strategy !== 'openid' && $strategy !== 'twitter' && ( !$localFacebook || $strategy !== 'facebook' ) )
 			{
 				$this->opauth->env['host'] = preg_replace('/\/$/', '',
 						network_site_url());
