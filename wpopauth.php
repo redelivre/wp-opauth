@@ -81,6 +81,7 @@ class WPOpauth
 		add_action('network_admin_menu', array($this, 'networkAdminMenu'));
 		add_action('admin_menu', array($this, 'adminMenu'));
 		add_action('login_init', array($this, 'loginInit'));
+		add_action('get_avatar_url', array($this, 'get_avatar_url'), 10, 3);
 	}
 
 	public function loginInit()
@@ -225,6 +226,49 @@ class WPOpauth
 			die;
 		}
 	}
+	
+	
+	/**
+	 * Filter the avatar URL.
+	 *
+	 * @param string $url         The URL of the avatar.
+	 * @param mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+	 *                            user email, WP_User object, WP_Post object, or WP_Comment object.
+	 * @param array  $args        Arguments passed to get_avatar_data(), after processing.
+	 */
+	public function get_avatar_url($url, $id_or_email, $args)
+	{
+		$user_id = false;
+		if ( is_numeric( $id_or_email ) )
+		{
+			$user_id = absint( $id_or_email );
+		}
+		elseif ( $id_or_email instanceof WP_User )
+		{
+			// User Object
+			$user_id = $id_or_email->ID;
+		}
+		elseif ( is_string( $id_or_email ) )
+		{
+			$user = get_user_by( 'email', $id_or_email );
+			if ( $user instanceof WP_User )
+			{
+				$user_id = $user->ID;
+			}
+		}
+		if ( is_numeric ($user_id) && $user_id > 0 )
+		{
+			$info = get_user_meta($user_id, '_wpopauth-userinfo', true);
+			if(is_array($info))
+			{
+				if(array_key_exists('image', $info))
+				{
+					$url = $info['image'];
+				}
+			}
+		}
+		return $url;
+	}
 
 	private function callback()
 	{
@@ -253,6 +297,9 @@ class WPOpauth
 		{
 			$uid = $this->createUser($response);
 		}
+		
+		$info = $response['auth']['info'];
+		update_user_meta($uid, '_wpopauth-userinfo', $info);
 
 		if (is_wp_error($uid))
 		{
@@ -368,7 +415,7 @@ class WPOpauth
 					'local_id' => $uid
 				)
 		);
-
+		
 		return $uid;
 	}
 
