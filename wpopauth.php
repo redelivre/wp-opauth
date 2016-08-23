@@ -925,7 +925,7 @@ class WPOpauth
 			. DIRECTORY_SEPARATOR . 'openid_variables.php';
 	}
 
-	private function getStrategies()
+	public function getStrategies()
 	{
 		/* Priorities are: local > network > default */
 		$network =
