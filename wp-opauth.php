@@ -45,6 +45,7 @@ require_once WPOPAUTH_CONF_FILE;
 require_once WPOPAUTH_OPAUTH_CLASS_FILE;
 require_once WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'wpopauth.php';
 
-$opauth = new WPOpauth($config);
+global $WPOpauth;
+$WPOpauth = new WPOpauth($config);
 
 ?>
