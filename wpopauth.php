@@ -221,7 +221,14 @@ class WPOpauth
 				$this->opauth->env['host'] = preg_replace('/\/$/', '',
 						network_site_url());
 			}
-
+			if (array_key_exists('redirect_to', $_REQUEST))
+			{
+				if (!isset($_SESSION))
+				{
+					session_start();
+				}
+				$_SESSION['wp-opauth-redirect'] = $_REQUEST['redirect_to'];
+			}
 			$this->opauth->run();
 			die;
 		}
