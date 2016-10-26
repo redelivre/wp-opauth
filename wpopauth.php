@@ -401,26 +401,45 @@ class WPOpauth
 			(array_key_exists('email', $response['auth']['info'])
 			 && $response['auth']['info']['email']?
 			 $response['auth']['info']['email'] :
-			 WPOPAUTH_INVALID_EMAIL . $username);
+			 WPOPAUTH_INVALID_EMAIL . $username)
+		;
 
-		$uid = wp_insert_user($user);
+		$new_user = false;
+		$uid = email_exists($user['user_email']);
+		if($uid === false)
+		{
+			$new_user = true;
+			$uid = wp_insert_user($user);
+		}
+		else
+		{
+			if(is_user_member_of_blog($uid) && ! user_can( $uid, "subscriber" )) // lets merge user with only with no powers
+			{
+				return false;
+			}
+			elseif( ! is_user_member_of_blog($uid) )
+			{
+				add_user_to_blog(get_current_blog_id(), $uid, 'subscriber');
+			}
+		}
+		
 
 		if (is_wp_error($uid))
 		{
 			return $uid;
 		}
 
-		if ($this->emailNewAccounts)
+		if ($this->emailNewAccounts && $new_user)
 		{
 			self::emailUserInformation($user);
 		}
 
 		$wpdb->replace($table,
-				array(
-					'provider' => $response['auth']['provider'],
-					'remote_id' => $response['auth']['uid'],
-					'local_id' => $uid
-				)
+			array(
+				'provider' => $response['auth']['provider'],
+				'remote_id' => $response['auth']['uid'],
+				'local_id' => $uid
+			)
 		);
 		
 		return $uid;
