@@ -413,9 +413,9 @@ class WPOpauth
 		}
 		else
 		{
-			if(is_user_member_of_blog($uid) && ! user_can( $uid, "subscriber" )) // lets merge user with only with no powers
+			if(is_user_member_of_blog($uid) && (! user_can( $uid, "subscriber" ) && $new_user )) // lets merge user with only with no powers
 			{
-				return false;
+				return new WP_Error(1, __('User exist and is not subscriber', 'wp-opauth'));
 			}
 			elseif( ! is_user_member_of_blog($uid) )
 			{
