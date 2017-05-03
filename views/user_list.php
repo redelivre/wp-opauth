@@ -14,6 +14,9 @@
 			<td>
 				<b><?php _e('Remote ID', 'wp-opauth'); ?></b>
 			</td>
+			<td>
+				<b><?php _e('E-Mail', 'wp-opauth'); ?></b>
+			</td>
 		</tr>
 	</thead>
 	<tbody>
@@ -33,6 +36,9 @@
 						</td>
 						<td>
 							<?php echo $user['remote_id']; ?>
+						</td>
+						<td>
+							<?php echo $user['user_email']; ?>
 						</td>
 					</tr>
 				<?php

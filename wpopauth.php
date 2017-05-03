@@ -974,6 +974,7 @@ class WPOpauth
 			if ($data !== false)
 			{
 				$user['display_name'] = $data->data->display_name;
+				$user['user_email'] = $data->data->user_email;
 				$users[] = $user;
 			}
 		}
