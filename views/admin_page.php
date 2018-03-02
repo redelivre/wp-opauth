@@ -34,7 +34,7 @@
 			if (array_key_exists($id, $values) || array_key_exists(strtolower($id), $net_strategies))
 			{?>
 				<option value="<?php echo htmlspecialchars($id); ?>" <?php
-					if ($id == $ForceStrategyID)
+					if (strtolower($id) == $ForceStrategyID)
 					{
 						echo 'selected="selected"';
 					}?>
