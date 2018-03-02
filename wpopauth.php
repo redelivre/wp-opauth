@@ -242,6 +242,19 @@ class WPOpauth
 			$this->opauth->run();
 			die;
 		}
+		
+		if( ( !array_key_exists('wpopauth', $_REQUEST) || $_REQUEST['wpopauth'] != 'wordpress') )
+		{
+				if($this->localForceStrategyLogin || $this->networkForceStrategyLogin)
+				{
+					$page = basename($_SERVER['REQUEST_URI']);
+					if( $page == "wp-login.php" && $_SERVER['REQUEST_METHOD'] == 'GET')
+					{
+						wp_redirect($this->login_url('/wp-login.php', '/'));
+						exit;
+					}
+				}
+		}
 	}
 	
 	
@@ -1021,19 +1034,20 @@ class WPOpauth
 	
 	public function login_url( $login_url, $redirect_url )
 	{
-		if( ( ! array_key_exists('wpopauth', $_REQUEST) || $_REQUEST['wpopauth'] != 'wordpress') && 
-			($this->localForceStrategyLogin || $this->localForceStrategyLogin) )
+		if(  ! array_key_exists('wpopauth', $_REQUEST) || $_REQUEST['wpopauth'] != 'wordpress')
 		{
-			$provider_id = $this->localForceStrategyID !== false ? $this->localForceStrategyID : $this->networkForceStrategyID;
-			if($provider_id !== false)
+			if($this->localForceStrategyLogin || $this->networkForceStrategyLogin)
 			{
-				$url = plugins_url("auth/$provider_id", WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'wpopauth.php')."?redirect_to=".urlencode($redirect_url);
-				return $url;
+				$provider_id = $this->localForceStrategyID !== false ? $this->localForceStrategyID : $this->networkForceStrategyID;
+				if($provider_id !== false)
+				{
+					$url = plugins_url("auth/$provider_id", WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'wpopauth.php')."?redirect_to=".urlencode($redirect_url);
+					return $url;
+				}
 			}
 		}
 		return $login_url;
 	}
-	
 }
 
 ?>
