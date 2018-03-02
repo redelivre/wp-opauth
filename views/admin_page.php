@@ -20,6 +20,28 @@
 ?>
 
 <form id="opauth-config" method="post" enctype="multipart/form-data">
+	<h2><?php _e('Force login to a provider?', 'wp-opauth') ?></h2>
+	<label><input  <?php echo $ForceStrategyLogin ? 'checked="checked"' : ''; ?>	
+		type="checkbox" name="ForceStrategyLogin" value="1" autocomplete="off">
+		<?php _e('Force', 'wp-opauth'); ?>
+	</label>
+	<br>
+	<?php ksort($strategies);?>
+	<select name="ForceStrategyID" autocomplete="off">
+		<option value="false"><?php _e('Select a provider to be forced', 'wp-opauth'); ?></option><?php
+		foreach ($strategies as $id => $info)
+		{
+			if (array_key_exists($id, $values) || array_key_exists(strtolower($id), $net_strategies))
+			{?>
+				<option value="<?php echo htmlspecialchars($id); ?>" <?php
+					if ($id == $ForceStrategyID)
+					{
+						echo 'selected="selected"';
+					}?>
+				><?php echo htmlspecialchars($id); ?></option><?php
+			}
+		}?>
+	</select>
 	<h2><?php _e('Custom openid providers', 'wp-opauth'); ?></h2>
 	<p><i><?php
 		_e('Requires the openid strategy to be enabled in the network',
@@ -67,7 +89,6 @@
 	?>
 	<h2><?php _e('Overwrite Strategies Config', 'wp-opauth'); ?></h2>
 	<?php
-		ksort($strategies);
 		foreach ($strategies as $id => $info)
 		{
 			$hid = htmlspecialchars($id);

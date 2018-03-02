@@ -2,17 +2,21 @@
 
 class WPOpauth
 {
-	private $opauth,
-					$originalStrategies,
-					$areButtonsOutside,
-					$originalPath,
-					$networkCustomOpenID,
-					$localCustomOpenIDEnabled,
-					$localCustomOpenID,
-					$emailNewAccounts,
-					$allowDisabling,
-					$strategies,
-					$disabledStrategies;
+	private		$opauth,
+				$originalStrategies,
+				$areButtonsOutside,
+				$originalPath,
+				$networkCustomOpenID,
+				$localCustomOpenIDEnabled,
+				$localCustomOpenID,
+				$emailNewAccounts,
+				$allowDisabling,
+				$strategies,
+				$disabledStrategies,
+				$networkForceStrategyLogin,
+				$networkForceStrategyID,
+				$localForceStrategyLogin,
+				$localForceStrategyID;
 
 	public function __construct($config = array())
 	{
@@ -72,6 +76,11 @@ class WPOpauth
 		/* Unset the disabled strategies */
 		$this->opauth->strategyMap =
 			array_diff_key($this->opauth->strategyMap, $this->disabledStrategies);
+		
+		$this->localForceStrategyLogin = get_option('wp-opauth-ForceStrategyLogin', false);
+		$this->localForceStrategyID = get_option('wp-opauth-ForceStrategyID', false);
+		$this->networkForceStrategyLogin = get_site_option('wp-opauth-ForceStrategyLogin', false);
+		$this->networkForceStrategyID = get_site_option('wp-opauth-ForceStrategyID', false);
 
 		if (sizeof($config['Strategy']))
 		{
@@ -82,6 +91,7 @@ class WPOpauth
 		add_action('admin_menu', array($this, 'adminMenu'));
 		add_action('login_init', array($this, 'loginInit'));
 		add_action('get_avatar_url', array($this, 'get_avatar_url'), 10, 3);
+		add_filter( 'login_url', array($this, 'login_url'), 10, 2 );
 	}
 
 	public function loginInit()
@@ -543,6 +553,8 @@ class WPOpauth
 		$values = get_option('wp-opauth-strategies', array());
 		$callbackURLs = $this->loadCallbackURLs(true);
 		$net_strategies = $this->networkStrategies;
+		$ForceStrategyLogin = $this->localForceStrategyLogin;
+		$ForceStrategyID = $this->localForceStrategyID;
 
 		if (!empty($_POST))
 		{
@@ -780,6 +792,17 @@ class WPOpauth
 				unlink($baseUploadDir . DIRECTORY_SEPARATOR . $filename);
 			}
 		}
+		
+		if(array_key_exists('ForceStrategyLogin', $candidate) && $candidate['ForceStrategyLogin'] != false )
+		{
+			update_option('wp-opauth-ForceStrategyLogin', (bool) $candidate['ForceStrategyLogin'] );
+			$this->localForceStrategyLogin = (bool) $candidate['ForceStrategyLogin'];
+		}
+		if(array_key_exists('ForceStrategyID', $candidate) && $candidate['ForceStrategyID'] != false )
+		{
+			$this->localForceStrategyID = strtolower(sanitize_text_field($candidate['ForceStrategyID']));
+			update_option('wp-opauth-ForceStrategyID', $this->localForceStrategyID);
+		}
 
 		update_option('wp-opauth-local-custom-openid', $customOpenID);
 		update_option('wp-opauth-disabled-strategies', $disabledStrategies);
@@ -995,6 +1018,22 @@ class WPOpauth
 			. DIRECTORY_SEPARATOR . 'views'
 			. DIRECTORY_SEPARATOR . 'user_list.php';
 	}
+	
+	public function login_url( $login_url, $redirect_url )
+	{
+		if( ( ! array_key_exists('wpopauth', $_REQUEST) || $_REQUEST['wpopauth'] != 'wordpress') && 
+			($this->localForceStrategyLogin || $this->localForceStrategyLogin) )
+		{
+			$provider_id = $this->localForceStrategyID !== false ? $this->localForceStrategyID : $this->networkForceStrategyID;
+			if($provider_id !== false)
+			{
+				$url = plugins_url("auth/$provider_id", WPOPAUTH_PATH . DIRECTORY_SEPARATOR . 'wpopauth.php')."?redirect_to=".urlencode($redirect_url);
+				return $url;
+			}
+		}
+		return $login_url;
+	}
+	
 }
 
 ?>
