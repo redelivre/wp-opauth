@@ -69,5 +69,4 @@
 	url = https://github.com/ritou/opauth-yahoojp.git
 [submodule "strategies/logincidadao"]
 	path = strategies/logincidadao
-	url = git@github.com:redelivre/opauth-logincidadao.git
-	branch = master
+	url = https://github.com/redelivre/opauth-logincidadao.git

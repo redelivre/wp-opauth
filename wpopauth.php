@@ -811,6 +811,11 @@ class WPOpauth
 			update_option('wp-opauth-ForceStrategyLogin', (bool) $candidate['ForceStrategyLogin'] );
 			$this->localForceStrategyLogin = (bool) $candidate['ForceStrategyLogin'];
 		}
+		else
+		{
+			update_option('wp-opauth-ForceStrategyLogin', false );
+			$this->localForceStrategyLogin = false;
+		}
 		if(array_key_exists('ForceStrategyID', $candidate) && $candidate['ForceStrategyID'] != false )
 		{
 			$this->localForceStrategyID = strtolower(sanitize_text_field($candidate['ForceStrategyID']));
