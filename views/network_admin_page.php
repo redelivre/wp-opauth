@@ -1,22 +1,7 @@
 <h1><?php _e('Opauth', 'wp-opauth'); ?></h1>
 
 <?php
-	if (!empty($errors))
-	{
-		?>
-		<p class="wp-opauth-error-message">
-			<?php echo $errors; ?>
-		</p>
-		<?php
-	}
-	if (!empty($success))
-	{
-		?>
-		<p class="wp-opauth-success-message">
-			<?php echo $success; ?>
-		</p>
-		<?php
-	}
+	\WPOpauth::display_msn();
 ?>
 
 <form id="opauth-config" method="post" enctype="multipart/form-data">

@@ -17,6 +17,9 @@ class WPOpauth
 				$networkForceStrategyID,
 				$localForceStrategyLogin,
 				$localForceStrategyID;
+	
+	private static $errors = '';
+	private static $success = '';
 
 	public function __construct($config = array())
 	{
@@ -106,15 +109,14 @@ class WPOpauth
 		/* Show errors */
 		if (array_key_exists('wp-opauth-errors', $_POST))
 		{
-			global $error;
-
 			$errors = json_decode(stripslashes($_POST['wp-opauth-errors']));
-			$error .= '<ul>';
+			$error = '<ul>';
 			foreach ($errors as $e)
 			{
 				$error .= "<li>$e</li>";
 			}
 			$error .= '</ul>';
+			self::$errors .= $error; 
 		}
 
 		if (array_key_exists('redirect_to', $_REQUEST))
@@ -130,7 +132,7 @@ class WPOpauth
 	public function loginForm()
 	{
 		$strategies = $this->getStrategies();
-
+		
 		if ($this->areButtonsOutside)
 		{
 			wp_enqueue_script('wp-opauth-login-movebuttons',
@@ -558,7 +560,6 @@ class WPOpauth
 
 	public function adminOptions()
 	{
-		global $errors, $success;
 		$customOpenID = $this->localCustomOpenID;
 		$allowDisabling = $this->allowDisabling;
 		$disabledStrategies = $this->disabledStrategies;
@@ -574,7 +575,7 @@ class WPOpauth
 			$this->saveLocalSettings($_POST);
 			$customOpenID =
 				get_option('wp-opauth-local-custom-openid', array());
-			$success = __('Settings updated successfully', 'wp-opauth');
+			self::$success = __('Settings updated successfully', 'wp-opauth');
 			$disabledStrategies =
 				get_option('wp-opauth-disabled-strategies', array());
 		}
@@ -596,7 +597,6 @@ class WPOpauth
 
 	public function networkAdminOptions()
 	{
-		global $errors;
 		$strategies = $this->originalStrategies;
 		$values = (isset($this->opauth)?
 				$this->opauth->config['Strategy'] : array());
@@ -621,7 +621,7 @@ class WPOpauth
 				get_site_option('wp-opauth-email-new-accounts', true);
 			$allowDisabling =
 				get_site_option('wp-opauth-allow-disabling', true);
-			$success = __('Settings updated successfully', 'wp-opauth');
+			self::$success = __('Settings updated successfully', 'wp-opauth');
 		}
 
 		wp_enqueue_style('wp-opauth-admin',
@@ -859,8 +859,6 @@ class WPOpauth
 
 	private static function validateUploadedIcon($key, $name)
 	{
-		global $errors;
-
 		if (!array_key_exists($key, $_FILES))
 		{
 			return false;
@@ -878,7 +876,7 @@ class WPOpauth
 		/* Make sure the file is not too big */
 		if ($_FILES[$key]['size'][$name]['icon'] > WPOPAUTH_MAXIMUM_ICON_SIZE)
 		{
-			$errors .= sprintf(__('The uploaded file is larger than %d bytes.',
+			self::$errors .= sprintf(__('The uploaded file is larger than %d bytes.',
 						'wp-opauth'), WPOPAUTH_MAXIMUM_ICON_SIZE);
 
 			return false;
@@ -888,7 +886,7 @@ class WPOpauth
 		if (exif_imagetype($_FILES[$key]['tmp_name'][$name]['icon'])
 				!== IMAGETYPE_PNG)
 		{
-			$errors .= __('The uploaded file is not a valid png file.', 'wp-opauth');
+			self::$errors .= __('The uploaded file is not a valid png file.', 'wp-opauth');
 
 			return false;
 		}
@@ -1053,6 +1051,35 @@ class WPOpauth
 		}
 		return $login_url;
 	}
+	
+	/**
+	 * Show error or success messages
+	 */
+	public static function display_msn( $echo = true, $clear = true ) {
+		$has = 0;
+		if (!empty(self::$errors)) {
+			?>
+			<p class="wp-opauth-error-message">
+				<?php if($echo) echo self::$errors; ?>
+			</p>
+			<?php
+			$has = 1;
+		}
+		if (!empty(self::$success)) {
+			?>
+			<p class="wp-opauth-success-message">
+				<?php if($echo) echo self::$success; ?>
+			</p>
+			<?php
+			$has = 2;
+		};
+		if($clear) {
+			self::$errors = '';
+			self::$success = '';
+		}
+		return $has;
+	}
+	
 }
 
 ?>
